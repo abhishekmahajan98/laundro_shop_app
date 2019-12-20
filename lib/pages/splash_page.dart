@@ -1,20 +1,66 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:laundro_shop_app/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
+  final _auth = FirebaseAuth.instance;
+  SharedPreferences prefs;
+  /*@override
   void initState() {
+    Timer(
+      Duration(seconds: 1),
+      (){
+        Navigator.pushNamed(context, '/login');
+        } 
+    );
     super.initState();
-    Timer(Duration(seconds: 1), () {
-      Navigator.pushReplacementNamed(context, '/login_page');
-    });
+  }*/
+  @override
+  void initState(){
+    super.initState();
+    Timer(
+      Duration(seconds: 1),
+      (){
+        instantiateSP();
+        } 
+    );
+  }
+  void instantiateSP() async{
+    prefs = await SharedPreferences.getInstance();
+    checkLoggedInStatus();
   }
 
+  void checkLoggedInStatus() async{
+    if(prefs.containsKey('loggedInUserEmail')){
+      try{
+        User.email=prefs.getString('loggedInUserEmail');
+        User.uid=prefs.getString('loggedInUserUid');
+        //User.phone=prefs.getString('loggedInUserPhoneNumber');
+        //User.displayName=prefs.getString('loggedInUserDisplayName');
+        //User.gender=prefs.getString('loggedInUserGender');
+        //User.dob=DateTime.parse(prefs.getString('loggedInUserDOB'));
+        Navigator.pushReplacementNamed(context, '/home_page');
+      }
+      catch(e){
+        print(e);
+        prefs.clear();
+        _auth.signOut();
+        Navigator.pushReplacementNamed(context, '/login_page');
+        
+      }
+    }
+    else{
+      prefs.clear();
+      _auth.signOut();
+      Navigator.pushReplacementNamed(context, '/login_page');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +96,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top:20),
                     child: Text(
                       'Laundro',
                       textAlign: TextAlign.center,
@@ -58,11 +104,12 @@ class _SplashScreenState extends State<SplashScreen> {
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
+                      ),
                   ),
                 ],
               ),
             ),
+            
           ],
         ),
       ),
