@@ -41,13 +41,15 @@ const kTextFieldDecoration = InputDecoration(
 );
 final kHintTextStyle = TextStyle(
   color: Colors.white54,
-  fontFamily: 'OpenSans',
 );
 
 final kLabelStyle = TextStyle(
   color: Colors.white,
   fontWeight: FontWeight.bold,
-  fontFamily: 'OpenSans',
+);
+final kBlackLabelStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.bold,
 );
 
 final kBoxDecorationStyle = BoxDecoration(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/components/active_orders_stream.dart';
 
 class ActiveOrders extends StatefulWidget {
   @override
@@ -10,9 +11,13 @@ class _ActiveOrdersState extends State<ActiveOrders> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Laundro'),
+          centerTitle: true,
+        ),
         body: Column(
           children: <Widget>[
-            Text('Active Orders'),
+            ActiveOrdersStream(),
           ],
         ),
       ),

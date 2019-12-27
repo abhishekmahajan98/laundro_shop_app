@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/components/previous_orders_stream.dart';
 
 class PreviousOrders extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class _PreviousOrdersState extends State<PreviousOrders> {
       child: Scaffold(
         body: Column(
           children: <Widget>[
-            Text('Previous Orders'),
+            PreviousOrdersStream(),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/components/new_order_stream.dart';
 
 class NewOrders extends StatefulWidget {
   @override
@@ -10,9 +11,14 @@ class _NewOrdersState extends State<NewOrders> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Laundro'),
+          centerTitle: true,
+        ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text('New Orders'),
+            NewOrdersStream(),
           ],
         ),
       ),
