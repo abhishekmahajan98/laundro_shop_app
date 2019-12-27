@@ -5,6 +5,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool showSpinner = false;
   bool circularSpinner = false;
   final _auth = FirebaseAuth.instance;
+   final _firestore = Firestore.instance;
   FirebaseUser loggedInUser;
   SharedPreferences prefs;
   @override
@@ -128,9 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
               User.uid = loggedInUser.uid;
               prefs.setString('loggedInUserEmail', User.email);
               prefs.setString('loggedInUserUserid', User.uid);
-              /*
+          
               final userCheck = await _firestore
-                  .collection('users')
+                  .collection('shop')
                   .where('email', isEqualTo: User.email)
                   .limit(1)
                   .getDocuments();
@@ -139,8 +141,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.pushReplacementNamed(context, '/login_buffer');
               } else {
                 Navigator.pushReplacementNamed(context, '/extradetails');
-              }*/
-              Navigator.pushReplacementNamed(context, '/home_page');
+              }
+              
             }
           } catch (e) {
             print(e);
