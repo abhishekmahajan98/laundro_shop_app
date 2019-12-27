@@ -1,24 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/constants.dart';
+import 'package:laundro_shop_app/pages/cloth_details_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 final _firestore = Firestore.instance;
 class ActiveOrdersBox extends StatefulWidget {
-  ActiveOrdersBox({this.orderId,
-  this.customerName,
-  this.serviceType,
-  this.customerPhoneNumber,
-  this.addressline1,
-  this.addressline2,
-  this.city,
-  this.state,
-  this.pincode,
-  this.serviceArea,
-  this.totalClothes,
-  this.paymentMethod,
-  this.totalOrderprice,
-  this.orderSubtotal,
-  this.isPickedUp,
+  ActiveOrdersBox({
+  @required this.orderId,
+  @required this.customerName,
+  @required this.serviceType,
+  @required this.customerPhoneNumber,
+  @required this.addressline1,
+  @required this.addressline2,
+  @required this.city,
+  @required this.state,
+  @required this.pincode,
+  @required this.serviceArea,
+  @required this.totalClothes,
+  @required this.paymentMethod,
+  @required this.totalOrderprice,
+  @required this.orderSubtotal,
+  @required this.isPickedUp,
+  @required this.clothList,
+  @required this.otp,
   });
   final String customerName;
   final String orderId;
@@ -34,12 +39,27 @@ class ActiveOrdersBox extends StatefulWidget {
   final String paymentMethod;
   final String totalOrderprice;
   final String orderSubtotal;
+  final String otp;
   final bool isPickedUp;
+  final Map<dynamic,dynamic> clothList;
   @override
   _ActiveOrdersBoxState createState() => _ActiveOrdersBoxState();
 }
 
 class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
+  List<ListTile> clothes=[];
+  String otpEntered='';
+  @override
+  void initState() {
+    super.initState();
+    widget.clothList.forEach((k,v){
+      ListTile lt=ListTile(
+        leading: Text(k.toString()),
+        trailing: Text('Quantity='+v.toString()),
+      );
+      clothes.add(lt);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -100,7 +120,12 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                 contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
                 title: Text('total clothes:'+widget.totalClothes),
                 trailing: RaisedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ClothDetails(clothList: clothes,)),
+                      );
+                  },
                   child: Text('Clothes details'),
                 ),
               ),
@@ -110,6 +135,7 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                     final document =await _firestore.collection('orders').document(widget.orderId).get();
                     if(document['isPickedUp']==true){
                       Alert(
+                      type: AlertType.info,
                       context: context,
                       title: 'Order has already been picked up!!',
                       buttons: [
@@ -122,23 +148,78 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                       ]).show();
                     }
                     else{
-                      _firestore
-                      .collection('orders')
-                      .document(widget.orderId)
-                      .updateData({
-                        'isPickedUp':true,
-                      });
                       Alert(
-                        context: context,
-                        title: 'Order picked up!!',
-                        buttons: [
-                          DialogButton(
-                            child: Text('Okay'),
-                            onPressed: () {
-                              Navigator.pop(context);
+                      type: AlertType.info,
+                      context: context,
+                      title: 'Enter the OTP.',
+                      desc: 'Please ask the OTP from the customer and enter it in the field below',
+                      content: Column(
+                        children: <Widget>[
+                          TextField(
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            maxLength: 4,
+                            onChanged: (value){
+                              otpEntered=value;
                             },
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
                           ),
-                        ]).show();
+                          RaisedButton(
+                            color: Colors.blue,
+                            onPressed: (){
+                              if(otpEntered==widget.otp){
+                                _firestore
+                                .collection('orders')
+                                .document(widget.orderId)
+                                .updateData({
+                                  'isPickedUp':true,
+                                });
+                                Alert(
+                                  context: context,
+                                  title: 'Order picked up!!',
+                                  buttons: [
+                                    DialogButton(
+                                      child: Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ]).show();
+                              }
+                              else{
+                                Alert(
+                                  context: context,
+                                  title: 'Wrong OTP',
+                                  desc: 'Please enter the otp given by the customer.',
+                                  buttons: [
+                                    DialogButton(
+                                      child: Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                ]).show();
+                              }
+                            },
+                            child: Text(
+                              'Submit',
+                              style: kLabelStyle,
+                              ),
+                          )
+                        ],
+                      ),
+                      buttons: [
+                        DialogButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ]).show();
+                      
                     }
                   },
                   child: Text('Pick Up'),

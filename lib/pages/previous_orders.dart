@@ -11,6 +11,10 @@ class _PreviousOrdersState extends State<PreviousOrders> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Laundro'),
+          centerTitle: true,
+        ),
         body: Column(
           children: <Widget>[
             PreviousOrdersStream(),

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:laundro_shop_app/components/active_orders_box.dart';
+import 'package:laundro_shop_app/components/previous_orders_box.dart';
 
 final _firestore = Firestore.instance;
 FirebaseUser loggedInUser;
@@ -19,7 +19,7 @@ class PreviousOrdersStream extends StatelessWidget {
           );
         }
         final messages = snapshot.data.documents;
-        List<ActiveOrdersBox> orders = [];
+        List<PreviousOrdersBox> orders = [];
         for (var message in messages) {
           final orderId = message.data['orderid'];
           final customerName = message.data['customerName'];
@@ -36,7 +36,8 @@ class PreviousOrdersStream extends StatelessWidget {
           final totalOrderprice=message.data['totalOrderPrice'];
           final orderSubtotal=message.data['orderSubtotal'];
           final isPickedUp=message.data['isPickedUp'];
-          final ActiveOrdersBox order = ActiveOrdersBox(
+          final clothList=message.data['clothList'];
+          final PreviousOrdersBox order = PreviousOrdersBox(
             orderId: orderId,
             customerName: customerName,
             serviceType: serviceType,
@@ -52,6 +53,7 @@ class PreviousOrdersStream extends StatelessWidget {
             totalOrderprice: totalOrderprice,
             orderSubtotal: orderSubtotal,
             isPickedUp: isPickedUp,
+            clothList: clothList,
           );
           orders.add(order);
         }
