@@ -8,7 +8,9 @@ import 'package:laundro_shop_app/pages/previous_orders.dart';
 import 'package:laundro_shop_app/pages/register_page.dart';
 import 'package:laundro_shop_app/pages/splash_page.dart';
 import 'package:laundro_shop_app/pages/summary_page.dart';
-
+import 'package:laundro_shop_app/pages/initial_user_details.dart';
+import 'package:laundro_shop_app/pages/initial_address_details.dart';
+import 'package:laundro_shop_app/pages/initial_shop_information_page.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -28,6 +30,13 @@ class MyApp extends StatelessWidget {
         '/register_page': (context) => RegisterScreen(),
         '/reset_password': (context) => ResetPasswordScreen(),
         '/login_page': (context) => LoginScreen(),
+        '/address':(context)=>ShopAddress(),
+        '/shopdetails':(context)=>ShopDetails(),
+        '/initialuserdetails':(context)=>InitialShopDetails(),
+
+
+
+
       },
     );
   }
