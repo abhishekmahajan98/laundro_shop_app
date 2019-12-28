@@ -4,9 +4,9 @@ import 'package:laundro_shop_app/constants.dart';
 final _firestore = Firestore.instance;
 class NewOrderBox extends StatefulWidget {
   NewOrderBox({this.orderId,this.customerName,this.serviceType});
-  final String customerName;
-  final String orderId;
-  final String serviceType;
+  @required final String customerName;
+  @required final String orderId;
+  @required final String serviceType;
 
   @override
   _NewOrderBoxState createState() => _NewOrderBoxState();

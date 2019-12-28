@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/pages/cloth_details_page.dart';
 
 class PreviousOrdersBox extends StatefulWidget {
   PreviousOrdersBox({this.orderId,
-  this.customerName,
-  this.serviceType,
-  this.customerPhoneNumber,
-  this.addressline1,
-  this.addressline2,
-  this.city,
-  this.state,
-  this.pincode,
-  this.serviceArea,
-  this.totalClothes,
-  this.paymentMethod,
-  this.totalOrderprice,
-  this.orderSubtotal,
-  this.isPickedUp,
+  @required this.customerName,
+  @required this.serviceType,
+  @required this.customerPhoneNumber,
+  @required this.addressline1,
+  @required this.addressline2,
+  @required this.city,
+  @required this.state,
+  @required this.pincode,
+  @required this.serviceArea,
+  @required this.totalClothes,
+  @required this.paymentMethod,
+  @required this.totalOrderprice,
+  @required this.orderSubtotal,
+  @required this.isPickedUp,
+  @required this.clothList,
   });
   final String customerName;
   final String orderId;
@@ -32,6 +34,7 @@ class PreviousOrdersBox extends StatefulWidget {
   final String totalOrderprice;
   final String orderSubtotal;
   final bool isPickedUp;
+  final Map<dynamic,dynamic> clothList;
   @override
   _PreviousOrdersBoxState createState() => _PreviousOrdersBoxState();
 }
@@ -97,7 +100,12 @@ class _PreviousOrdersBoxState extends State<PreviousOrdersBox> {
                 contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
                 title: Text('total clothes:'+widget.totalClothes),
                 trailing: RaisedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ClothDetails(clothList: widget.clothList,)),
+                    );
+                  },
                   child: Text('Clothes details'),
                 ),
               ),

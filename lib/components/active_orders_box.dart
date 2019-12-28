@@ -1,27 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:laundro_shop_app/constants.dart';
+import 'package:laundro_shop_app/pages/cloth_details_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 final _firestore = Firestore.instance;
 class ActiveOrdersBox extends StatefulWidget {
   ActiveOrdersBox({this.orderId,
-  this.customerName,
-  this.serviceType,
-  this.customerPhoneNumber,
-  this.addressline1,
-  this.addressline2,
-  this.city,
-  this.state,
-  this.pincode,
-  this.serviceArea,
-  this.totalClothes,
-  this.paymentMethod,
-  this.totalOrderprice,
-  this.orderSubtotal,
-  this.isPickedUp,
-  this.otp,
-  this.clothList,
+  @required this.customerName,
+  @required this.serviceType,
+  @required this.customerPhoneNumber,
+  @required this.addressline1,
+  @required this.addressline2,
+  @required this.city,
+  @required this.state,
+  @required this.pincode,
+  @required this.serviceArea,
+  @required this.totalClothes,
+  @required this.paymentMethod,
+  @required this.totalOrderprice,
+  @required this.orderSubtotal,
+  @required this.isPickedUp,
+  @required this.otp,
+  @required this.clothList,
   });
   final String customerName;
   final String orderId;
@@ -46,7 +47,6 @@ class ActiveOrdersBox extends StatefulWidget {
 
 class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
   String otpEntered;
-  List<ListTile> clothes;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -107,7 +107,12 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                 contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
                 title: Text('total clothes:'+widget.totalClothes),
                 trailing: RaisedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ClothDetails(clothList: widget.clothList,)),
+                    );
+                  },
                   child: Text('Clothes details'),
                 ),
               ),
@@ -202,6 +207,17 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                     onPressed: () async{
                       final document =await _firestore.collection('orders').document(widget.orderId).get();
                       if(document['isPickedUp']==true){
+                        Alert(
+                          context: context,
+                          title: 'Order has been delivered!!',
+                          buttons: [
+                            DialogButton(
+                              child: Text('Okay'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ]).show();
                         _firestore
                         .collection('orders')
                         .document(widget.orderId)
