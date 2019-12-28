@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/constants.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 final _firestore = Firestore.instance;
@@ -19,6 +20,8 @@ class ActiveOrdersBox extends StatefulWidget {
   this.totalOrderprice,
   this.orderSubtotal,
   this.isPickedUp,
+  this.otp,
+  this.clothList,
   });
   final String customerName;
   final String orderId;
@@ -34,12 +37,16 @@ class ActiveOrdersBox extends StatefulWidget {
   final String paymentMethod;
   final String totalOrderprice;
   final String orderSubtotal;
+  final String otp;
+  final Map<dynamic,dynamic> clothList;
   final bool isPickedUp;
   @override
   _ActiveOrdersBoxState createState() => _ActiveOrdersBoxState();
 }
 
 class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
+  String otpEntered;
+  List<ListTile> clothes;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -122,23 +129,69 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                       ]).show();
                     }
                     else{
-                      _firestore
-                      .collection('orders')
-                      .document(widget.orderId)
-                      .updateData({
-                        'isPickedUp':true,
-                      });
                       Alert(
-                        context: context,
-                        title: 'Order picked up!!',
-                        buttons: [
-                          DialogButton(
-                            child: Text('Okay'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ]).show();
+                      context: context,
+                      title: 'Enter the OTP',
+                      content: ListTile(
+                        leading: Text('OTP'),
+                        title: TextField(
+                          maxLength: 4,
+                          textAlign: TextAlign.center,
+                          style: kBlackLabelStyle,
+                          onChanged: (value){
+                            otpEntered=value;
+                          },
+                        ),
+                      ),
+                      buttons: [
+                        DialogButton(
+                          child: Text('Okay'),
+                          onPressed: () {
+                            if(otpEntered==widget.otp){
+                              _firestore
+                              .collection('orders')
+                              .document(widget.orderId)
+                              .updateData({
+                                'isPickedUp':true,
+                              });
+                              Alert(
+                                context: context,
+                                title: 'Order picked up!!',
+                                buttons: [
+                                  DialogButton(
+                                    child: Text('Okay'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                              ]).show();
+                            }
+                            else{
+                              Alert(
+                                context: context,
+                                title: 'Wrong OTP',
+                                desc: 'Please enter the OTP told by the customer.',
+                                buttons: [
+                                  DialogButton(
+                                    child: Text('Okay'),
+                                    onPressed: () {
+                                      print(widget.otp);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                              ]).show();
+                            }
+                          },
+                        ),
+                        DialogButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ]).show();
+                      
                     }
                   },
                   child: Text('Pick Up'),

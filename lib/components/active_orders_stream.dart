@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:laundro_shop_app/components/active_orders_box.dart';
+import 'package:laundro_shop_app/models/user_model.dart';
 
 final _firestore = Firestore.instance;
 FirebaseUser loggedInUser;
@@ -9,7 +10,7 @@ class ActiveOrdersStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _firestore.collection('orders').where("shopId", isEqualTo: '123').where('orderStatus',isEqualTo:"accepted").snapshots(),
+      stream: _firestore.collection('orders').where("shopId", isEqualTo: User.uid).where('orderStatus',isEqualTo:"accepted").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -36,6 +37,8 @@ class ActiveOrdersStream extends StatelessWidget {
           final totalOrderprice=message.data['totalOrderPrice'];
           final orderSubtotal=message.data['orderSubtotal'];
           final isPickedUp=message.data['isPickedUp'];
+          final otp=message.data['otp'];
+          final clothList=message.data['clothList'];
           final ActiveOrdersBox order = ActiveOrdersBox(
             orderId: orderId,
             customerName: customerName,
@@ -52,6 +55,8 @@ class ActiveOrdersStream extends StatelessWidget {
             totalOrderprice: totalOrderprice,
             orderSubtotal: orderSubtotal,
             isPickedUp: isPickedUp,
+            clothList: clothList,
+            otp: otp,
           );
           orders.add(order);
         }
