@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:laundro_shop_app/models/user_model.dart';
 
 class SideDrawer extends StatefulWidget {
   @override
@@ -6,6 +9,8 @@ class SideDrawer extends StatefulWidget {
 }
 
 class _SideDrawerState extends State<SideDrawer> {
+  SharedPreferences prefs;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -13,8 +18,8 @@ class _SideDrawerState extends State<SideDrawer> {
         children: <Widget>[
           //header
           UserAccountsDrawerHeader(
-            accountName: Text('name'),
-            accountEmail: Text('email'),
+            accountName: Text(User.displayName),
+            accountEmail: Text(User.email),
             currentAccountPicture: GestureDetector(
               child: CircleAvatar(
                   backgroundColor: Colors.white,
@@ -29,7 +34,7 @@ class _SideDrawerState extends State<SideDrawer> {
           ),
           //body
           InkWell(
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, '/myaccount_page'),
             child: ListTile(
               title: Text('My Account'),
               leading: Icon(
@@ -84,7 +89,7 @@ class _SideDrawerState extends State<SideDrawer> {
             height: 5,
           ),
           InkWell(
-            onTap: () => Navigator.pushNamed(context, '/about'),
+            onTap: () => Navigator.pushNamed(context, '/about_page'),
             child: ListTile(
               title: Text('About us'),
               leading: Icon(
@@ -104,7 +109,14 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: ()  async {
+              prefs = await SharedPreferences.getInstance();
+              prefs.clear();
+              _auth.signOut();
+
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  "/login_page", (Route<dynamic> route) => false);
+            },
             child: ListTile(
               title: Text('Logout'),
               leading: Icon(

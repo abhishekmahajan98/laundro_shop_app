@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/models/user_model.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopDetails extends StatefulWidget {
   @override
@@ -6,9 +10,19 @@ class ShopDetails extends StatefulWidget {
 }
 
 class _ShopDetailsState extends State<ShopDetails> {
-  String ironing='';
-  String washing='';
-  String drycleaning='';
+  SharedPreferences prefs;
+  final _firestore = Firestore.instance;
+  //String ironing='';
+  //String washing='';
+  //String drycleaning='';
+  @override
+  initState(){
+    super.initState();
+    instantiateSP();
+  }
+  void instantiateSP()async{
+    prefs= await SharedPreferences.getInstance();
+  }
 
   Widget _buildironing(){
     return Container(
@@ -28,7 +42,7 @@ class _ShopDetailsState extends State<ShopDetails> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            ironing=value;
+            User.maxIroning=value;
           });
 
         },
@@ -70,7 +84,7 @@ class _ShopDetailsState extends State<ShopDetails> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            washing=value;
+            User.maxWashing=value;
           });
 
         },
@@ -112,7 +126,7 @@ class _ShopDetailsState extends State<ShopDetails> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            drycleaning=value;
+            User.maxDryCleaning=value;
           });
 
         },
@@ -135,6 +149,95 @@ class _ShopDetailsState extends State<ShopDetails> {
     );
 
 
+  }
+   Widget _nextbutton(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Text(
+          'Next',
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        FloatingActionButton(
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.blue,
+          ),
+          onPressed: (){
+            if(User.maxIroning.length>0 && User.maxWashing.length>0 && User.maxDryCleaning.length>0) {
+              User.primaryAddress = User.primaryAddressLine1 +
+                  '+' +
+                  User.primaryAddressLine2 +
+                  '+' +
+                  User.primaryAddressCity +
+                  '+' +
+                  User.primaryAddressState +
+                  '+' +
+                  User.pincode;
+                  print(User.displayName);
+              prefs.setString('loggedInUserDisplayName', User.displayName);
+              prefs.setString('loggedInUserPhoneNumber', User.phone);
+              prefs.setString('loggedInUserDOB', User.dob.toString());
+              
+              prefs.setString(
+                  'loggedInUserPrimaryAddressLine1', User.primaryAddressLine1);
+              prefs.setString(
+                  'loggedInUserPrimaryAddressLine2', User.primaryAddressLine2);
+              prefs.setString(
+                  'loggedInUserPrimaryAddressCity', User.primaryAddressCity);
+              prefs.setString(
+                  'loggedInUserPrimaryAddressState', User.primaryAddressState);
+              prefs.setString(
+                  'loggedInUserPrimaryAddressPincode', User.pincode);
+              prefs.setString(
+                  'loggedInUserPrimaryAddress', User.primaryAddress);
+              _firestore.document('shop/' + User.uid).setData({
+                'email': User.email,
+                'displayName': User.displayName,
+                'phoneNumber': User.phone,
+                
+                'dob': User.dob.toString(),
+                'primaryAddress': User.primaryAddress,
+                'primaryAddressLine1': User.primaryAddressLine1,
+                'primaryAddressLine2': User.primaryAddressLine2,
+                'primaryAddressCity': User.primaryAddressCity,
+                'primaryAddressState': User.primaryAddressState,
+                'primaryAddressPincode': User.pincode,
+                'primaryAddress':User.primaryAddress,
+                'maxironing':User.maxIroning,
+                'maxWashing':User.maxWashing,
+                'maxDryCleaning':User.maxDryCleaning,
+                'aadharNumber':User.aadharNumber,
+                'panNumber':User.panNumber,
+              });
+              Navigator.pushReplacementNamed(context, '/home_page');
+            }
+            
+             else {
+                Alert(
+                  context: context,
+                  title: 'Please Enter Minimum 50 clothes  ',
+                  
+                  buttons: [
+                    DialogButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ]).show();
+            }
+          },),
+      ],
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -182,6 +285,8 @@ class _ShopDetailsState extends State<ShopDetails> {
                   _buildwashing(),
                   SizedBox(height: 30.0),
                   _builddrycleaning(),
+                  SizedBox(height: 30.0),
+                  _nextbutton(),
                 ],
               ),
             ),
