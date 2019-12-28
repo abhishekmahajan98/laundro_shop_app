@@ -128,9 +128,6 @@ class _LoginScreenState extends State<LoginScreen> {
               loggedInUser = currentFirebaseUser;
               User.email = loggedInUser.email;
               User.uid = loggedInUser.uid;
-              prefs.setString('loggedInUserEmail', User.email);
-              prefs.setString('loggedInUserUserid', User.uid);
-          
               final userCheck = await _firestore
                   .collection('shop')
                   .where('email', isEqualTo: User.email)
@@ -138,9 +135,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   .getDocuments();
               final userCheckList = userCheck.documents;
               if (userCheckList.length == 1) {
-                Navigator.pushReplacementNamed(context, '/login_buffer');
+                Navigator.pushReplacementNamed(context, '/buffer_page');
               } else {
-                Navigator.pushReplacementNamed(context, '/extradetails');
+                Navigator.pushReplacementNamed(context, '/initial_user_details');
               }
               
             }

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:laundro_shop_app/models/user_model.dart';
 
 class SideDrawer extends StatefulWidget {
   @override
@@ -17,8 +18,8 @@ class _SideDrawerState extends State<SideDrawer> {
         children: <Widget>[
           //header
           UserAccountsDrawerHeader(
-            accountName: Text('name'),
-            accountEmail: Text('email'),
+            accountName: Text(User.displayName),
+            accountEmail: Text(User.email),
             currentAccountPicture: GestureDetector(
               child: CircleAvatar(
                   backgroundColor: Colors.white,
@@ -33,7 +34,7 @@ class _SideDrawerState extends State<SideDrawer> {
           ),
           //body
           InkWell(
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, '/myaccount_page'),
             child: ListTile(
               title: Text('My Account'),
               leading: Icon(

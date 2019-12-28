@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:laundro_shop_app/pages/active_orders.dart';
 import 'package:laundro_shop_app/pages/home_page.dart';
+import 'package:laundro_shop_app/pages/initial_shop_information_page.dart';
+import 'package:laundro_shop_app/pages/login_buffer.dart';
 import 'package:laundro_shop_app/pages/login_page.dart';
 import 'package:laundro_shop_app/pages/new_orders.dart';
 import 'package:laundro_shop_app/pages/password_reset_page.dart';
@@ -8,9 +10,11 @@ import 'package:laundro_shop_app/pages/previous_orders.dart';
 import 'package:laundro_shop_app/pages/register_page.dart';
 import 'package:laundro_shop_app/pages/splash_page.dart';
 import 'package:laundro_shop_app/pages/summary_page.dart';
+import 'package:laundro_shop_app/pages/about_page.dart';
 import 'package:laundro_shop_app/pages/initial_user_details.dart';
 import 'package:laundro_shop_app/pages/initial_address_details.dart';
-import 'package:laundro_shop_app/pages/initial_shop_information_page.dart';
+import 'package:laundro_shop_app/pages/my_account.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -30,12 +34,12 @@ class MyApp extends StatelessWidget {
         '/register_page': (context) => RegisterScreen(),
         '/reset_password': (context) => ResetPasswordScreen(),
         '/login_page': (context) => LoginScreen(),
-        '/address':(context)=>ShopAddress(),
-        '/shopdetails':(context)=>ShopDetails(),
-        '/initialuserdetails':(context)=>InitialShopDetails(),
-
-
-
+        '/about_page':(context)=>AboutPage(),
+        '/initial_user_details':(context)=>InitialShopDetails(),
+        '/initial_shop_information':(context)=>ShopDetails(),
+        '/initial_address_details':(context)=>ShopAddress(),
+        '/buffer_page':(context)=>BufferPage(),
+        '/myaccount_page':(context)=>MyAccount(),
 
       },
     );
