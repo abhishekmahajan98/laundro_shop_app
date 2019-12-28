@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/models/user_model.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 class ShopAddress extends StatefulWidget {
   @override
@@ -6,11 +7,6 @@ class ShopAddress extends StatefulWidget {
 }
 
 class _ShopAddressState extends State<ShopAddress> {
-  String line1;
-  String line2;
-  String city;
-  String state;
-  String pincode;
   Widget _buildLine1(){
     return Container(
       alignment: Alignment.centerLeft,
@@ -29,7 +25,7 @@ class _ShopAddressState extends State<ShopAddress> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            line1=value;
+            User.primaryAddressLine1=value;
           });
 
         },
@@ -68,7 +64,7 @@ class _ShopAddressState extends State<ShopAddress> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            line2=value;
+            User.primaryAddressLine2=value;
           });
 
         },
@@ -107,7 +103,7 @@ class _ShopAddressState extends State<ShopAddress> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            city=value;
+            User.primaryAddressCity=value;
           });
 
         },
@@ -146,7 +142,7 @@ class _ShopAddressState extends State<ShopAddress> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            state=value;
+            User.primaryAddressState=value;
           });
 
         },
@@ -185,7 +181,7 @@ class _ShopAddressState extends State<ShopAddress> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            pincode=value;
+            User.pincode=value;
           });
 
         },
@@ -229,16 +225,15 @@ class _ShopAddressState extends State<ShopAddress> {
             color: Colors.blue,
           ),
           onPressed: (){
-            if(pincode.length==6 ){
+            if(User.primaryAddressLine1.length>0 && User.pincode.length==6 ){
 
-              Navigator.pushReplacementNamed(context, '/shopdetails');
+              Navigator.pushReplacementNamed(context, '/initial_shop_information');
             }
             else{
               Alert(
                   context: context,
-                  title: 'Please fill the form ',
-                  desc:
-                  'Please fill the name,10 digit phone number and the Date of birth',
+                  title: 'Please fill the Details properly ',
+                  
                   buttons: [
                     DialogButton(
                       child: Text('Okay'),

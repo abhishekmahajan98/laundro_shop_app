@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import 'package:laundro_shop_app/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class InitialShopDetails extends StatefulWidget {
 
   @override
@@ -8,16 +10,15 @@ class InitialShopDetails extends StatefulWidget {
 }
 
 class _InitialShopDetails extends State<InitialShopDetails> {
-  String name;
-  String phone='';
   DateTime dob;
   DateTime selectedDate = DateTime.now();
   String selectedDay;
   String selectedMonth;
   String selectedYear;
+  SharedPreferences prefs;
+  String phone='';
+  String displayName='';
 
-  String aadharcard;
-  String pancard;
   Widget _buildName(){
     return Container(
       alignment: Alignment.centerLeft,
@@ -34,11 +35,11 @@ class _InitialShopDetails extends State<InitialShopDetails> {
       ),
       height: 60.0,
       child: TextFormField(
+        initialValue: User.displayName,
         onChanged: (value) {
           setState(() {
-            name=value;
+            User.displayName=value;
           });
-
         },
 
         style: TextStyle(
@@ -72,20 +73,22 @@ class _InitialShopDetails extends State<InitialShopDetails> {
         ],
       ),
       height: 60.0,
-      child: TextField(
+      child: TextFormField(
+        initialValue: User.phone,
         onChanged: (value) {
           setState(() {
             phone=value;
           });
-
+          
         },
+        
         keyboardType: TextInputType.phone,
         style: TextStyle(
           color:Colors.white,
+          
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
-
           labelText: "Phone Number" ,
           contentPadding: EdgeInsets.only(top: 4.0,left: 44.0),
           labelStyle: TextStyle(color: Colors.white),
@@ -95,6 +98,7 @@ class _InitialShopDetails extends State<InitialShopDetails> {
     );
 
   }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -103,14 +107,12 @@ class _InitialShopDetails extends State<InitialShopDetails> {
         lastDate: DateTime(2101));
     if (picked != null && picked != dob)
       setState(() {
-        dob = picked;
+        User.dob = picked;
       });
   }
   Widget _buildDOB(){
     return ListTile(
-
       contentPadding: EdgeInsets.all(0),
-
       title: Container(
         alignment: Alignment.centerLeft,
         height: 60.0,
@@ -138,7 +140,6 @@ class _InitialShopDetails extends State<InitialShopDetails> {
             hintStyle: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
-              fontFamily: 'OpenSans',
             ),
 
           ),
@@ -155,10 +156,10 @@ class _InitialShopDetails extends State<InitialShopDetails> {
         ),
         onTap: () async{
           await _selectDate(context);
-          selectedDay=dob.day.toString();
-          selectedMonth=dob.month.toString();
-          selectedYear=dob.year.toString();
-          print(dob.toString());
+          selectedDay=User.dob.day.toString();
+          selectedMonth=User.dob.month.toString();
+          selectedYear=User.dob.year.toString();
+          //print(dob.toString());
         },
       ),
     );
@@ -181,7 +182,7 @@ class _InitialShopDetails extends State<InitialShopDetails> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            aadharcard=value;
+            User.aadharNumber=value;
           });
 
         },
@@ -220,7 +221,7 @@ class _InitialShopDetails extends State<InitialShopDetails> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            pancard=value;
+            User.panNumber=value;
           });
 
         },
@@ -262,25 +263,28 @@ class _InitialShopDetails extends State<InitialShopDetails> {
             color: Colors.blue,
           ),
           onPressed: (){
-            if(name!='' && phone.length==10 && dob!=null ){
-
-              Navigator.pushReplacementNamed(context, '/address');
+            if(phone!=null){
+              User.phone=phone;
             }
-            else{
-              Alert(
-                  context: context,
-                  title: 'Please fill the form ',
-                  desc:
-                  'Please fill the name,10 digit phone number and the Date of birth',
-                  buttons: [
-                    DialogButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ]).show();
-            }
+            if(User.displayName!='' &&User.displayName!=null && phone.length==10 && User.dob!=null ){
+              //print(User.displayName);
+              Navigator.pushReplacementNamed(context, '/initial_address_details');
+          }
+            
+                 else{
+                Alert(
+                    context: context,
+                    title: 'Please fill the Details Properly ',
+                  
+                    buttons: [
+                      DialogButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ]).show();    
+                 }
           },),
       ],
     );

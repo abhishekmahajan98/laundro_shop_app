@@ -70,3 +70,18 @@ final kCategoryTextStyle = TextStyle(
   fontSize: 18,
   fontFamily: 'OpenSans',
 );
+const kTitleTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.bold,
+  fontSize: 20,
+);
+const kparagraphTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.normal,
+  fontSize: 18.0,
+);
+const kBlackLabelTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.normal,
+  fontSize: 18.0,
+);

@@ -11,16 +11,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final _auth = FirebaseAuth.instance;
   SharedPreferences prefs;
-  /*@override
-  void initState() {
-    Timer(
-      Duration(seconds: 1),
-      (){
-        Navigator.pushNamed(context, '/login');
-        } 
-    );
-    super.initState();
-  }*/
   @override
   void initState(){
     super.initState();
@@ -41,10 +31,21 @@ class _SplashScreenState extends State<SplashScreen> {
       try{
         User.email=prefs.getString('loggedInUserEmail');
         User.uid=prefs.getString('loggedInUserUid');
-        //User.phone=prefs.getString('loggedInUserPhoneNumber');
-        //User.displayName=prefs.getString('loggedInUserDisplayName');
-        //User.gender=prefs.getString('loggedInUserGender');
-        //User.dob=DateTime.parse(prefs.getString('loggedInUserDOB'));
+        User.phone=prefs.getString('loggedInUserPhoneNumber');
+        User.displayName=prefs.getString('loggedInUserDisplayName');
+        User.dob=DateTime.parse(prefs.getString('loggedInUserDOB'));
+        User.primaryAddress=prefs.getString('loggedInUserPrimaryAddress');
+        User.primaryAddressLine1=prefs.getString('loggedInUserPrimaryAddressLine1');
+        User.primaryAddressLine2=prefs.getString('loggedInUserPrimaryAddressLine2');
+        User.primaryAddressCity=prefs.getString('loggedInUserPrimaryAddressCity');
+        User.primaryAddressState=prefs.getString('loggedInUserPrimaryAddressState');
+        User.pincode=prefs.getString('loggedInUserPrimaryAddressPincode');
+        User.aadharNumber=prefs.getString('loggedInUserAadharNumber');
+        User.panNumber=prefs.getString('loggedInUserPanNumber');
+        User.maxIroning=prefs.getString('loggedInUserMaxIroning');
+        User.maxWashing=prefs.getString('loggedInUserMaxWashing');
+        User.maxDryCleaning=prefs.getString('loggedInUserMaxDryCleaning');
+    
         Navigator.pushReplacementNamed(context, '/home_page');
       }
       catch(e){
@@ -56,6 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     }
     else{
+      print('no login');
       prefs.clear();
       _auth.signOut();
       Navigator.pushReplacementNamed(context, '/login_page');
