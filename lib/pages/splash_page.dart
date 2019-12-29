@@ -57,7 +57,6 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     }
     else{
-      print('no login');
       prefs.clear();
       _auth.signOut();
       Navigator.pushReplacementNamed(context, '/login_page');
@@ -67,52 +66,22 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF73AEF5),
-                    Color(0xFF61A4F1),
-                    Color(0xFF478DE0),
-                    Color(0xFF398AE5),
-                  ],
-                  stops: [0.1, 0.4, 0.7, 0.9],
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0XFF6bacde),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                'images/app_logo/LOGO1.png',
+                width: 300,
                 ),
-              ),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Hero(
-                    tag: 'logo',
-                    child: Icon(
-                      Icons.local_laundry_service,
-                      size: 80,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top:20),
-                    child: Text(
-                      'Laundro',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      ),
-                  ),
-                ],
-              ),
-            ),
-            
-          ],
+
+            ],
+          ),
         ),
       ),
     );

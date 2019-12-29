@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -70,7 +71,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 DialogButton(
                   child: Text('Okay'),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/login_page');
+                    Navigator.pushReplacementNamed(context, '/login');
                   },
                 ),
               ]).show();
@@ -107,17 +108,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
+                  color: Color(0XFF6bacde),
                 ),
               ),
               Container(

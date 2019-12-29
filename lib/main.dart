@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laundro_shop_app/pages/active_orders.dart';
+import 'package:laundro_shop_app/pages/contact_us.dart';
 import 'package:laundro_shop_app/pages/home_page.dart';
 import 'package:laundro_shop_app/pages/initial_shop_information_page.dart';
 import 'package:laundro_shop_app/pages/login_buffer.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/buffer_page':(context)=>BufferPage(),
         '/myaccount_page':(context)=>MyAccount(),
         '/test_page':(context)=>TestPage(),
+        '/contact_us':(context)=>ContactUs(),
       },
     );
   }

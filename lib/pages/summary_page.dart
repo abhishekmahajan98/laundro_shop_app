@@ -182,7 +182,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                           children: <Widget>[
                                             Text('₹ '+earnings.toString()),
                                           ],
-                                        )
+                                        ),
                                       ).show();
                                     }
                                     else if(toDate.isBefore(fromDate)){

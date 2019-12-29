@@ -100,7 +100,7 @@ class _BufferPageState extends State<BufferPage> {
                 children: <Widget>[
                   Hero(
                     tag: 'logo',
-                    child: Icon(Icons.local_laundry_service),
+                    child: Image.asset('images/app_logo/LOGO1.png'),
                   ),
                 ],
               ),

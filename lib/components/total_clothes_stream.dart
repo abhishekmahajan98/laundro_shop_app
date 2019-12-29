@@ -52,7 +52,7 @@ class TotalClothesStream extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    sumOfClothes.toString()+' clothes',
+                    sumOfClothes.toString(),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 25,

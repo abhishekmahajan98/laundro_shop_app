@@ -29,96 +29,114 @@ class _LoginScreenState extends State<LoginScreen> {
   void instantiateSP() async {
     prefs = await SharedPreferences.getInstance();
   }
+  Widget _buildLogo() {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Hero(
+          tag: 'logo',
+          child: Container(
+            height: 3 * (MediaQuery.of(context).size.height / 20),
+            width: 7 * (MediaQuery.of(context).size.width / 10),
+            child: Image.asset('images/app_logo/LOGO1.png'),
+          ),
+        ),
+      );
+    }
 
   Widget _buildEmailTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (value) {
-              email = value;
-            },
-            style: TextStyle(
+    return Padding(
+      padding: EdgeInsets.only(bottom: 15),
+      child: Container(
+        alignment: Alignment.centerLeft,
+        decoration: kBoxDecorationStyle,
+        height: 1.5 * (MediaQuery.of(context).size.height / 20),
+        width: 8 * (MediaQuery.of(context).size.width / 10),
+        child: TextField(
+          keyboardType: TextInputType.emailAddress,
+          onChanged: (value) {
+            email = value;
+          },
+          style: TextStyle(
+            color: Colors.white,
+          ),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(top: 14.0),
+            prefixIcon: Icon(
+              Icons.email,
               color: Colors.white,
             ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.email,
-                color: Colors.white,
-              ),
-              labelText: 'Email',
-              labelStyle: kLabelStyle,
-            ),
+            labelText: 'Email',
+            labelStyle: kLabelStyle,
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPasswordTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            obscureText: true,
-            onChanged: (value) {
-              password = value;
-            },
-            style: TextStyle(
-              color: Colors.white,
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
-              labelText: 'Password',
-              labelStyle: kLabelStyle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/reset_password');
-        },
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Forgot Password?',
-          style: kLabelStyle,
         ),
       ),
     );
   }
 
+  Widget _buildPasswordTF() {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 5),
+      child: Container(
+        alignment: Alignment.centerLeft,
+        decoration: kBoxDecorationStyle,
+        height: 1.5 * (MediaQuery.of(context).size.height / 20),
+        width: 8 * (MediaQuery.of(context).size.width / 10),
+        child: TextField(
+          obscureText: true,
+          onChanged: (value) {
+            password = value;
+          },
+          style: TextStyle(
+            color: Colors.white,
+          ),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(top: 14.0),
+            prefixIcon: Icon(
+              Icons.lock,
+              color: Colors.white,
+            ),
+            labelText: 'Password',
+            labelStyle: kLabelStyle,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForgotPasswordBtn() {
+     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/reset_password');
+          },
+          child: Container(
+            padding:
+                EdgeInsets.only(right: MediaQuery.of(context).size.width / 10),
+            child: Text(
+              'Forgot Password ?',
+              style: kLabelStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildLoginBtn() {
-    return Container(
-      padding: EdgeInsets.only(top: 2, bottom: 20),
-      width: double.infinity,
+   return Container(
+      height: 1.4 * (MediaQuery.of(context).size.height / 20),
+      width: 8 * (MediaQuery.of(context).size.width / 10),
+      margin: EdgeInsets.only(bottom: 20),
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
-          setState(() {
-            circularSpinner = true;
+         setState(() {
+            showSpinner = true;
           });
           try {
             final firebaseUser = await _auth.signInWithEmailAndPassword(
@@ -145,52 +163,53 @@ class _LoginScreenState extends State<LoginScreen> {
             print(e);
           }
           setState(() {
-            circularSpinner = false;
+            showSpinner = false;
           });
         },
-        padding: EdgeInsets.all(15.0),
+        //padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
         color: Colors.white,
-        child: circularSpinner
-            ? CircularProgressIndicator()
-            : Text(
-                'LOGIN',
-                style: TextStyle(
-                  color: Color(0xFF527DAA),
-                  letterSpacing: 1.5,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        child: Text(
+          'LOGIN',
+          style: TextStyle(
+            color: Color(0xFF527DAA),
+            letterSpacing: 1.5,
+            fontSize: MediaQuery.of(context).size.height / 35,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/register_page'),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.white,
-                //fontSize: 18.0,
-                fontWeight: FontWeight.w400,
+     return Padding(
+      padding: const EdgeInsets.only(top: 5),
+      child: FlatButton(
+        onPressed: () => Navigator.pushNamed(context, '/register_page'),
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Don\'t have an Account? ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.height / 40,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.white,
-                //fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+              TextSpan(
+                text: 'Sign Up',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.height / 40,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -202,64 +221,29 @@ class _LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomPadding: false,
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
-        child: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.light,
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFF73AEF5),
-                        Color(0xFF61A4F1),
-                        Color(0xFF478DE0),
-                        Color(0xFF398AE5),
-                      ],
-                      stops: [0.1, 0.4, 0.7, 0.9],
-                    ),
-                  ),
+        child: Scaffold(
+            resizeToAvoidBottomPadding: false,
+            body: Container(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Color(0XFF6bacde),
                 ),
-                Container(
-                  height: double.infinity,
-                  child: ListView(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.all(40),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Hero(
-                              tag: 'logo',
-                              child: Icon(
-                                Icons.local_laundry_service,
-                                size: 150,
-                              ),
-                            ),
-                            SizedBox(height: 30.0),
-                            _buildEmailTF(),
-                            SizedBox(
-                              height: 30.0,
-                            ),
-                            _buildPasswordTF(),
-                            _buildForgotPasswordBtn(),
-                            _buildLoginBtn(),
-                            _buildSignupBtn(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _buildLogo(),
+                    _buildEmailTF(),
+                    _buildPasswordTF(),
+                    _buildForgotPasswordBtn(),
+                    _buildLoginBtn(),
+                    _buildSignupBtn(),
+                    
+                  ],
+                ),
+              ),
+            )),
       ),
     );
   }

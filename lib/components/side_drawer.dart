@@ -54,7 +54,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
           ),
           InkWell(
-            onTap: () => Navigator.pushNamed(context, '/contactus'),
+            onTap: () => Navigator.pushNamed(context, '/contact_us'),
             child: ListTile(
               title: Text('Contact us'),
               leading: Icon(

@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:laundro_shop_app/models/user_model.dart';
+
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 
@@ -130,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         color: Colors.white,
         child: Text(
-          'LOGIN',
+          'SIGN-UP',
           style: TextStyle(
             color: Color(0xFF527DAA),
             letterSpacing: 1.5,
@@ -158,17 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: double.infinity,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFF73AEF5),
-                        Color(0xFF61A4F1),
-                        Color(0xFF478DE0),
-                        Color(0xFF398AE5),
-                      ],
-                      stops: [0.1, 0.4, 0.7, 0.9],
-                    ),
+                    color:Color(0XFF6bacde),
                   ),
                 ),
                 Container(
