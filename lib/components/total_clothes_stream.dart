@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:laundro_shop_app/constants.dart';
 import 'package:laundro_shop_app/models/user_model.dart';
+import '../constants.dart';
 
 final _firestore = Firestore.instance;
 FirebaseUser loggedInUser;
-class TotalPaymentsStream extends StatelessWidget {
+class TotalClothesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -25,17 +25,18 @@ class TotalPaymentsStream extends StatelessWidget {
           );
         }
         final orders = snapshot.data.documents;
-        double sumOfOrders=0;
+        int sumOfClothes=0;
         for(var order in orders){
-          sumOfOrders+=double.parse(order.data['totalOrderPrice'])-double.parse(order.data['orderCommission']);
+          sumOfClothes+=int.parse(order.data['totalClothes']);
           //print(sumOfOrders);
         }
         return Expanded(
-          flex: 3,
+          flex: 2,
           child: Container(
-            margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
+            margin: EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(
-              color: Color(0XFF6bacde),
+              //color: Color(0XFF6bacde),
+              color: Colors.white
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -44,17 +45,17 @@ class TotalPaymentsStream extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      'Lifetime Earning',
-                      style: kLargeBlackTextStyle,
+                      'Total Clothes Serviced',
+                      style: kCategoryTextStyle,
                       ),
                   ),
                 ),
                 Center(
                   child: Text(
-                    '₹ '+sumOfOrders.toString(),
+                    sumOfClothes.toString()+' clothes',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 36,
+                      color: Colors.black,
+                      fontSize: 25,
                     ),
                   )
                 ),

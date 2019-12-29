@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:laundro_shop_app/components/order_box.dart';
+import 'package:laundro_shop_app/components/new_order_box.dart';
 import 'package:laundro_shop_app/models/user_model.dart';
 
 final _firestore = Firestore.instance;

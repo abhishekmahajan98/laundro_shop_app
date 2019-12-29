@@ -278,7 +278,6 @@ class _MyAccountState extends State<MyAccount> {
                                 Icons.lock,
                                 color: Colors.black,
                               ),
-
                             ),
                             ListTile(
                               leading: Text("Line 1      "),

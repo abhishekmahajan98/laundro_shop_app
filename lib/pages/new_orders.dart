@@ -10,17 +10,11 @@ class _NewOrdersState extends State<NewOrders> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Laundro'),
-          centerTitle: true,
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            NewOrdersStream(),
-          ],
-        ),
+      child:Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          NewOrdersStream(),
+        ],
       ),
     );
   }

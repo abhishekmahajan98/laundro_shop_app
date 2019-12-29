@@ -44,51 +44,6 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
           ),
           InkWell(
-            onTap: () => Navigator.pushNamed(context, '/summary_page'),
-            child: ListTile(
-              title: Text('Summary'),
-              leading: Icon(
-                Icons.view_list,
-                color: Color(0xFF73AEF5),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () => Navigator.pushNamed(context, '/previous_orders'),
-            child: ListTile(
-              title: Text('Previous Orders'),
-              leading: Icon(
-                Icons.shopping_basket,
-                color: Color(0xFF73AEF5),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () => Navigator.pushNamed(context, '/new_orders'),
-            child: ListTile(
-              title: Text('New Orders'),
-              leading: Icon(
-                Icons.fiber_new,
-                color: Color(0xFF73AEF5),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () => Navigator.pushNamed(context, '/active_orders'),
-            child: ListTile(
-              title: Text('Active Orders'),
-              leading: Icon(
-                Icons.directions_run,
-                color: Color(0xFF73AEF5),
-              ),
-            ),
-          ),
-
-          Divider(
-            color: Color(0xFF73AEF5),
-            height: 5,
-          ),
-          InkWell(
             onTap: () => Navigator.pushNamed(context, '/about_page'),
             child: ListTile(
               title: Text('About us'),
@@ -119,6 +74,18 @@ class _SideDrawerState extends State<SideDrawer> {
             },
             child: ListTile(
               title: Text('Logout'),
+              leading: Icon(
+                Icons.exit_to_app,
+                color: Color(0xFF73AEF5),
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: ()  {
+              Navigator.pushNamed(context, '/test_page');
+            },
+            child: ListTile(
+              title: Text('Test Page'),
               leading: Icon(
                 Icons.exit_to_app,
                 color: Color(0xFF73AEF5),

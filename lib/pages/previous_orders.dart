@@ -9,14 +9,10 @@ class PreviousOrders extends StatefulWidget {
 class _PreviousOrdersState extends State<PreviousOrders> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: <Widget>[
-            PreviousOrdersStream(),
-          ],
-        ),
-      ),
+    return Column(
+      children: <Widget>[
+        PreviousOrdersStream(),
+      ],
     );
-  }
+}
 }

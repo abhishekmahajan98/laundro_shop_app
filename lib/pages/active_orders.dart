@@ -9,18 +9,10 @@ class ActiveOrders extends StatefulWidget {
 class _ActiveOrdersState extends State<ActiveOrders> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Laundro'),
-          centerTitle: true,
-        ),
-        body: Column(
+    return Column(
           children: <Widget>[
             ActiveOrdersStream(),
           ],
-        ),
-      ),
-    );
+        );
   }
 }

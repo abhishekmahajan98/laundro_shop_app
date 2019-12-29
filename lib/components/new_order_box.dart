@@ -25,9 +25,10 @@ class _NewOrderBoxState extends State<NewOrderBox> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             border:Border.all(
-              width: 1
+              width: 1,
             )
           ),
           child: ListTile(
@@ -41,7 +42,7 @@ class _NewOrderBoxState extends State<NewOrderBox> {
             ),
             trailing: RaisedButton(
               color: Colors.green,
-              
+
               onPressed: (){
                 _firestore
                     .collection('orders')

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:laundro_shop_app/constants.dart';
+import 'package:laundro_shop_app/models/user_model.dart';
 import 'package:laundro_shop_app/pages/cloth_details_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -23,6 +25,8 @@ class ActiveOrdersBox extends StatefulWidget {
   @required this.isPickedUp,
   @required this.otp,
   @required this.clothList,
+  @required this.orderTimestamp,
+  @required this.customerUid,
   });
   final String customerName;
   final String orderId;
@@ -39,6 +43,8 @@ class ActiveOrdersBox extends StatefulWidget {
   final String totalOrderprice;
   final String orderSubtotal;
   final String otp;
+  final String customerUid;
+  final DateTime orderTimestamp;
   final Map<dynamic,dynamic> clothList;
   final bool isPickedUp;
   @override
@@ -46,7 +52,8 @@ class ActiveOrdersBox extends StatefulWidget {
 }
 
 class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
-  String otpEntered;
+  String otpEntered='';
+  String issueEntered='';
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -107,6 +114,7 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                 contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
                 title: Text('total clothes:'+widget.totalClothes),
                 trailing: RaisedButton(
+                  color: Color(0XFF6bacde),
                   onPressed: (){
                     Navigator.push(
                       context,
@@ -118,6 +126,7 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
               ),
               ListTile(
                 leading: RaisedButton(
+                  color: Color(0XFF6bacde),
                   onPressed: () async{
                     final document =await _firestore.collection('orders').document(widget.orderId).get();
                     if(document['isPickedUp']==true){
@@ -199,11 +208,14 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                       
                     }
                   },
-                  child: Text('Pick Up'),
+                  child: Text(
+                    'Pick Up',
+                    ),
                 ),
                 title: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: RaisedButton(
+                    color: Color(0XFF6bacde),
                     onPressed: () async{
                       final document =await _firestore.collection('orders').document(widget.orderId).get();
                       if(document['isPickedUp']==true){
@@ -215,15 +227,16 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                               child: Text('Okay'),
                               onPressed: () {
                                 Navigator.pop(context);
+                                _firestore
+                                .collection('orders')
+                                .document(widget.orderId)
+                                .updateData({
+                                  'orderStatus':'delivered',
+                                });
                               },
                             ),
                           ]).show();
-                        _firestore
-                        .collection('orders')
-                        .document(widget.orderId)
-                        .updateData({
-                          'orderStatus':'delivered',
-                        });
+                        
                       }
                       else{
                         Alert(
@@ -245,7 +258,67 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                   ),
                 ),
                 trailing: RaisedButton(
-                  onPressed: (){},
+                  color: Colors.redAccent,
+                  onPressed: (){
+                    Alert(
+                      context: context,
+                      title: 'What\'s wrong?',
+                      desc: 'Describe us the issue below. We will get back to you ASAP.',
+                      content: ListTile(
+                        leading: Icon(
+                          FontAwesomeIcons.info,
+                        ),
+                        title: TextField(
+                          style: kBlackLabelStyle,
+                          onChanged: (value){
+                            issueEntered=value;
+                          },
+                        ), 
+                      ),
+                    buttons: [
+                      DialogButton(
+                        child: Text('Send'),
+                        onPressed: () {
+                          if(issueEntered!=null && issueEntered.length>1){
+                            _firestore.collection('orderIssues').document().setData({
+                              'orderTimestamp': widget.orderTimestamp,
+                              'issueTimestamp': DateTime.now(),
+                              'customerId':widget.customerUid,
+                              'issueDescription': issueEntered,
+                              'customerPhoneNumber': widget.customerName,
+                              'shopPhonenumber':User.phone,
+                              'customerName':widget.customerName,
+                              'customerPhoneNumber':widget.customerPhoneNumber,
+                              'orderId':widget.orderId,
+                            });
+                            Navigator.pop(context);
+                          }
+                          else{
+                            Alert(
+                              context: context,
+                              title: 'Please enter the issue',
+                              buttons: [
+                                DialogButton(
+                                  child:Text('Okay'),
+                                  onPressed: (){
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ]
+                            );
+                          }
+                        },
+                      ),
+                      DialogButton(
+                        child: Text('Cancel'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+
+                    ]
+                    ).show();
+                  },
                   child: Text('Raise Issue'),
                 ),
               ),

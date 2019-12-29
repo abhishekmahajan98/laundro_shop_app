@@ -39,6 +39,9 @@ class ActiveOrdersStream extends StatelessWidget {
           final isPickedUp=message.data['isPickedUp'];
           final otp=message.data['otp'];
           final clothList=message.data['clothList'];
+          final timestamp=message.data['orderTimestamp'];
+          final customerUid=message.data['customerUid'];
+          final DateTime orderTimestamp=timestamp.toDate();
           final ActiveOrdersBox order = ActiveOrdersBox(
             orderId: orderId,
             customerName: customerName,
@@ -57,6 +60,8 @@ class ActiveOrdersStream extends StatelessWidget {
             isPickedUp: isPickedUp,
             clothList: clothList,
             otp: otp,
+            orderTimestamp:orderTimestamp,
+            customerUid:customerUid,
           );
           orders.add(order);
         }
