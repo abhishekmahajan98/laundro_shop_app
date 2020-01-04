@@ -166,31 +166,52 @@ class _SummaryPageState extends State<SummaryPage> {
                                 color: Color(0XFF6bacde),
                                 onPressed: ()async{
                                   try{
-                                    if(fromDate.isBefore(toDate) && toDate.isBefore(DateTime.now())){
-                                      setState(() {
-                                        spinner=true;
-                                      });
-                                      double earnings=await getEarningBetween(fromDate, toDate);
-                                      setState(() {
-                                        spinner=false;
-                                      });
-                                      Alert(
-                                        context:context,
-                                        title: 'Periodic Earning',
-                                        desc: "Earning bewteen "+fromDay+"/"+fromMonth+"/"+fromYear+" and "+toDay+"/"+toMonth+"/"+fromYear+" is:",
-                                        content: Column(
-                                          children: <Widget>[
-                                            Text('₹ '+earnings.toString()),
-                                          ],
-                                        ),
-                                      ).show();
+                                    if(toDate!=null && fromDate!=null){
+                                      if(fromDate.isBefore(toDate) && toDate.isBefore(DateTime.now())){
+                                        setState(() {
+                                          spinner=true;
+                                        });
+                                        double earnings=await getEarningBetween(fromDate, toDate);
+                                        setState(() {
+                                          spinner=false;
+                                        });
+                                        Alert(
+                                          context:context,
+                                          title: 'Periodic Earning',
+                                          desc: "Earning bewteen "+fromDay+"/"+fromMonth+"/"+fromYear+" and "+toDay+"/"+toMonth+"/"+fromYear+" is:",
+                                          content: Column(
+                                            children: <Widget>[
+                                              Text('₹ '+earnings.toString()),
+                                            ],
+                                          ),
+                                          buttons: [
+                                            DialogButton(
+                                              child: Text(
+                                                'Okay',
+                                                style: TextStyle(
+                                                  color: Colors.white
+                                                ),
+                                                ),
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              },
+                                            )
+                                          ]
+                                        ).show();
+                                      }
+                                      else if(toDate.isBefore(fromDate)){
+                                        Alert(
+                                          context:context,
+                                          title: 'Wrong Dates',
+                                          desc: '2nd date cannot be before the 1st date!',
+                                        ).show();
+                                      }
                                     }
-                                    else if(toDate.isBefore(fromDate)){
+                                    else{
                                       Alert(
-                                        context:context,
-                                        title: 'Wrong Dates',
-                                        desc: '2nd date cannot be before the 1st date!',
-                                      ).show();
+                                          context:context,
+                                          title: 'Please fill both dates.',
+                                        ).show();
                                     }
                                   }
                                   catch(e){
@@ -202,7 +223,12 @@ class _SummaryPageState extends State<SummaryPage> {
                                     ).show();
                                   }
                                 },
-                                child: Text('show'),
+                                child: Text(
+                                  'show',
+                                  style:TextStyle(
+                                    color: Colors.white,
+                                  )
+                                  ),
                               ),
                             ),                  
                         ],

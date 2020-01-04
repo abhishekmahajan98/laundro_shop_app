@@ -37,7 +37,8 @@ class ActiveOrdersStream extends StatelessWidget {
           final totalOrderprice=message.data['totalOrderPrice'];
           final orderSubtotal=message.data['orderSubtotal'];
           final isPickedUp=message.data['isPickedUp'];
-          final otp=message.data['otp'];
+          final pickupOtp=message.data['pickupOtp'];
+          final deliveryOtp=message.data['deliveryOtp'];
           final clothList=message.data['clothList'];
           final timestamp=message.data['orderTimestamp'];
           final customerUid=message.data['customerUid'];
@@ -59,7 +60,8 @@ class ActiveOrdersStream extends StatelessWidget {
             orderSubtotal: orderSubtotal,
             isPickedUp: isPickedUp,
             clothList: clothList,
-            otp: otp,
+            pickupOtp:pickupOtp,
+            deliveryOtp:deliveryOtp,
             orderTimestamp:orderTimestamp,
             customerUid:customerUid,
           );

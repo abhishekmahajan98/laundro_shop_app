@@ -15,7 +15,8 @@ import 'package:laundro_shop_app/pages/about_page.dart';
 import 'package:laundro_shop_app/pages/initial_user_details.dart';
 import 'package:laundro_shop_app/pages/initial_address_details.dart';
 import 'package:laundro_shop_app/pages/my_account.dart';
-import 'package:laundro_shop_app/pages/test_page.dart';
+import 'package:laundro_shop_app/test_pages/test_page.dart';
+
 
 void main() => runApp(MyApp());
 

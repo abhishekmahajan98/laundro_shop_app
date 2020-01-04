@@ -23,7 +23,8 @@ class ActiveOrdersBox extends StatefulWidget {
   @required this.totalOrderprice,
   @required this.orderSubtotal,
   @required this.isPickedUp,
-  @required this.otp,
+  @required this.deliveryOtp,
+  @required this.pickupOtp,
   @required this.clothList,
   @required this.orderTimestamp,
   @required this.customerUid,
@@ -42,7 +43,8 @@ class ActiveOrdersBox extends StatefulWidget {
   final String paymentMethod;
   final String totalOrderprice;
   final String orderSubtotal;
-  final String otp;
+  final String deliveryOtp;
+  final String pickupOtp;
   final String customerUid;
   final DateTime orderTimestamp;
   final Map<dynamic,dynamic> clothList;
@@ -52,7 +54,8 @@ class ActiveOrdersBox extends StatefulWidget {
 }
 
 class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
-  String otpEntered='';
+  String deliveryOtpEntered='';
+  String pickupOtpEntered='';
   String issueEntered='';
   @override
   Widget build(BuildContext context) {
@@ -79,122 +82,280 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
           ),
         ),
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
-                title: Text('Order Id:'+widget.orderId),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
-                title: Text('Phone:'+widget.customerPhoneNumber),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
-                title: Text('Address Line 1:'+widget.addressline1),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
-                title: Text('Address Line 2:'+widget.addressline2),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
-                title: Text('city:'+widget.city), 
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
-                title:Text('state:'+widget.state),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
-                title: Text('pincode:'+widget.pincode),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 5),
-                title: Text('total clothes:'+widget.totalClothes),
-                trailing: RaisedButton(
-                  color: Color(0XFF6bacde),
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ClothDetails(clothList: widget.clothList,)),
-                    );
-                  },
-                  child: Text('Clothes details'),
-                ),
-              ),
-              ListTile(
-                leading: RaisedButton(
-                  color: Color(0XFF6bacde),
-                  onPressed: () async{
-                    final document =await _firestore.collection('orders').document(widget.orderId).get();
-                    if(document['isPickedUp']==true){
-                      Alert(
-                      context: context,
-                      title: 'Order has already been picked up!!',
-                      buttons: [
-                        DialogButton(
-                          child: Text('Okay'),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ]).show();
-                    }
-                    else{
-                      Alert(
-                      context: context,
-                      title: 'Enter the OTP',
-                      content: ListTile(
-                        leading: Text('OTP'),
-                        title: TextField(
-                          maxLength: 4,
-                          textAlign: TextAlign.center,
-                          style: kBlackLabelStyle,
-                          onChanged: (value){
-                            otpEntered=value;
-                          },
-                        ),
+          Card(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Order Id:'+widget.orderId,
+                  style: kOrderCardTextStyle,
+                  ),
+                Text(
+                  'Phone:'+widget.customerPhoneNumber,
+                  style: kOrderCardTextStyle,
+                 ),
+                Text(
+                  'Address Line 1:'+widget.addressline1,
+                  style: kOrderCardTextStyle,
+                  ),
+                Text(
+                  'Address Line 2:'+widget.addressline2,
+                  style: kOrderCardTextStyle,
+                  ),
+                Text(
+                  'city:'+widget.city,
+                  style: kOrderCardTextStyle,
+                  ),
+                Text(
+                  'state:'+widget.state,
+                  style: kOrderCardTextStyle,),
+                Text(
+                  'pincode:'+widget.pincode,
+                  style: kOrderCardTextStyle,),
+                Card(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text('total clothes:'+widget.totalClothes),
+                      RaisedButton(
+                        color: Color(0XFF6bacde),
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ClothDetails(clothList: widget.clothList,)),
+                          );
+                        },
+                        child: Text('Clothes details'),
                       ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: RaisedButton(
+                    color: Color(0XFF6bacde),
+                    onPressed: () async{
+                      final document =await _firestore.collection('orders').document(widget.orderId).get();
+                      if(document['isPickedUp']==true){
+                        Alert(
+                        context: context,
+                        title: 'Order has already been picked up!!',
+                        buttons: [
+                          DialogButton(
+                            child: Text('Okay'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ]).show();
+                      }
+                      else{
+                        Alert(
+                        context: context,
+                        title: 'Enter the OTP',
+                        content: ListTile(
+                          leading: Text('OTP'),
+                          title: TextField(
+                            maxLength: 4,
+                            textAlign: TextAlign.center,
+                            style: kBlackLabelStyle,
+                            onChanged: (value){
+                              pickupOtpEntered=value;
+                            },
+                          ),
+                        ),
+                        buttons: [
+                          DialogButton(
+                            child: Text('Okay'),
+                            onPressed: () {
+                              if(pickupOtpEntered==widget.pickupOtp){
+                                _firestore
+                                .collection('orders')
+                                .document(widget.orderId)
+                                .updateData({
+                                  'isPickedUp':true,
+                                });
+                                Alert(
+                                  context: context,
+                                  title: 'Order picked up!!',
+                                  buttons: [
+                                    DialogButton(
+                                      child: Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                ]).show();
+                              }
+                              else{
+                                Alert(
+                                  context: context,
+                                  title: 'Wrong OTP',
+                                  desc: 'Please enter the OTP told by the customer.',
+                                  buttons: [
+                                    DialogButton(
+                                      child: Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                ]).show();
+                              }
+                            },
+                          ),
+                          DialogButton(
+                            child: Text('Cancel'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ]).show();
+                        
+                      }
+                    },
+                    child: Text(
+                      'Pick Up',
+                      ),
+                  ),
+                  title: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: RaisedButton(
+                      color: Color(0XFF6bacde),
+                      onPressed: () async{
+                        final document =await _firestore.collection('orders').document(widget.orderId).get();
+                        if(document['isPickedUp']==true){
+                          Alert(
+                            context: context,
+                            title: 'Please enter the delivery OTP',
+                            content: ListTile(
+                              leading: Text('OTP:'),
+                              title: TextField(
+                                maxLength: 4,
+                                textAlign: TextAlign.center,
+                                style: kBlackLabelStyle,
+                                onChanged: (value){
+                                  deliveryOtpEntered=value;
+                                },
+                              ),
+                            ),
+                            buttons: [
+                              DialogButton(
+                                onPressed: (){
+                                  if(deliveryOtpEntered==widget.deliveryOtp){
+                                    Alert(
+                                      context: context,
+                                      title: 'Order has been delivered!!',
+                                      buttons: [
+                                        DialogButton(
+                                          child: Text('Okay'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            _firestore
+                                            .collection('orders')
+                                            .document(widget.orderId)
+                                            .updateData({
+                                              'orderStatus':'delivered',
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                    ]).show();
+                                  }
+                                  else{
+                                    Alert(
+                                      context: context,
+                                      title: 'Wrong OTP.',
+                                      buttons: [
+                                        DialogButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Okay'),
+                                        ),
+                                      ]
+                                    ).show();
+                                  }
+                                },
+                                child: Text('Okay'),
+                              ),
+                              DialogButton(
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Cancel'),
+                              )
+                            ]
+                          ).show();
+                        }
+                        else{
+                          Alert(
+                            context: context,
+                            title: 'Order has not been picked up yet!',
+                            desc:
+                                'Please pick up the order first by asking for the otp from the customer. If you have picked up the order already and updated the order in the application, please raise an issue using the button beside delivered button',
+                            buttons: [
+                              DialogButton(
+                                child: Text('Okay'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ]).show();
+                        }
+                      },
+                      child: Text('Delivered'),
+                    ),
+                  ),
+                  trailing: RaisedButton(
+                    color: Colors.redAccent,
+                    onPressed: (){
+                      Alert(
+                        context: context,
+                        title: 'What\'s wrong?',
+                        desc: 'Describe us the issue below. We will get back to you ASAP.',
+                        content: ListTile(
+                          leading: Icon(
+                            FontAwesomeIcons.info,
+                          ),
+                          title: TextField(
+                            style: kBlackLabelStyle,
+                            onChanged: (value){
+                              issueEntered=value;
+                            },
+                          ), 
+                        ),
                       buttons: [
                         DialogButton(
-                          child: Text('Okay'),
+                          child: Text('Send'),
                           onPressed: () {
-                            if(otpEntered==widget.otp){
-                              _firestore
-                              .collection('orders')
-                              .document(widget.orderId)
-                              .updateData({
-                                'isPickedUp':true,
+                            if(issueEntered!=null && issueEntered.length>1){
+                              _firestore.collection('orderIssues').document().setData({
+                                'orderTimestamp': widget.orderTimestamp,
+                                'issueTimestamp': DateTime.now(),
+                                'customerId':widget.customerUid,
+                                'issueDescription': issueEntered,
+                                'customerPhoneNumber': widget.customerName,
+                                'shopPhonenumber':User.phone,
+                                'customerName':widget.customerName,
+                                'customerPhoneNumber':widget.customerPhoneNumber,
+                                'orderId':widget.orderId,
                               });
-                              Alert(
-                                context: context,
-                                title: 'Order picked up!!',
-                                buttons: [
-                                  DialogButton(
-                                    child: Text('Okay'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                              ]).show();
+                              Navigator.pop(context);
                             }
                             else{
                               Alert(
                                 context: context,
-                                title: 'Wrong OTP',
-                                desc: 'Please enter the OTP told by the customer.',
+                                title: 'Please enter the issue',
                                 buttons: [
                                   DialogButton(
-                                    child: Text('Okay'),
-                                    onPressed: () {
-                                      print(widget.otp);
+                                    child:Text('Okay'),
+                                    onPressed: (){
                                       Navigator.pop(context);
                                     },
                                   ),
-                              ]).show();
+                                ]
+                              );
                             }
                           },
                         ),
@@ -204,126 +365,16 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                             Navigator.pop(context);
                           },
                         ),
-                      ]).show();
-                      
-                    }
-                  },
-                  child: Text(
-                    'Pick Up',
-                    ),
-                ),
-                title: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: RaisedButton(
-                    color: Color(0XFF6bacde),
-                    onPressed: () async{
-                      final document =await _firestore.collection('orders').document(widget.orderId).get();
-                      if(document['isPickedUp']==true){
-                        Alert(
-                          context: context,
-                          title: 'Order has been delivered!!',
-                          buttons: [
-                            DialogButton(
-                              child: Text('Okay'),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                _firestore
-                                .collection('orders')
-                                .document(widget.orderId)
-                                .updateData({
-                                  'orderStatus':'delivered',
-                                });
-                              },
-                            ),
-                          ]).show();
-                        
-                      }
-                      else{
-                        Alert(
-                          context: context,
-                          title: 'Order has not been picked up yet!',
-                          desc:
-                              'Please pick up the order first by asking for the otp from the customer. If you have picked up the order already and updated the order in the application, please raise an issue using the button beside delivered button',
-                          buttons: [
-                            DialogButton(
-                              child: Text('Okay'),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ]).show();
-                      }
+
+                      ]
+                      ).show();
                     },
-                    child: Text('Delivered'),
+                    child: Text('Raise Issue'),
                   ),
                 ),
-                trailing: RaisedButton(
-                  color: Colors.redAccent,
-                  onPressed: (){
-                    Alert(
-                      context: context,
-                      title: 'What\'s wrong?',
-                      desc: 'Describe us the issue below. We will get back to you ASAP.',
-                      content: ListTile(
-                        leading: Icon(
-                          FontAwesomeIcons.info,
-                        ),
-                        title: TextField(
-                          style: kBlackLabelStyle,
-                          onChanged: (value){
-                            issueEntered=value;
-                          },
-                        ), 
-                      ),
-                    buttons: [
-                      DialogButton(
-                        child: Text('Send'),
-                        onPressed: () {
-                          if(issueEntered!=null && issueEntered.length>1){
-                            _firestore.collection('orderIssues').document().setData({
-                              'orderTimestamp': widget.orderTimestamp,
-                              'issueTimestamp': DateTime.now(),
-                              'customerId':widget.customerUid,
-                              'issueDescription': issueEntered,
-                              'customerPhoneNumber': widget.customerName,
-                              'shopPhonenumber':User.phone,
-                              'customerName':widget.customerName,
-                              'customerPhoneNumber':widget.customerPhoneNumber,
-                              'orderId':widget.orderId,
-                            });
-                            Navigator.pop(context);
-                          }
-                          else{
-                            Alert(
-                              context: context,
-                              title: 'Please enter the issue',
-                              buttons: [
-                                DialogButton(
-                                  child:Text('Okay'),
-                                  onPressed: (){
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ]
-                            );
-                          }
-                        },
-                      ),
-                      DialogButton(
-                        child: Text('Cancel'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
 
-                    ]
-                    ).show();
-                  },
-                  child: Text('Raise Issue'),
-                ),
-              ),
-
-            ],
+              ],
+            ),
           ),
         ],
       ),
