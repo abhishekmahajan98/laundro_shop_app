@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:laundro_shop_app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -12,56 +13,50 @@ class _SplashScreenState extends State<SplashScreen> {
   final _auth = FirebaseAuth.instance;
   SharedPreferences prefs;
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    Timer(
-      Duration(seconds: 1),
-      (){
-        instantiateSP();
-        } 
-    );
+    Timer(Duration(seconds: 1), () {
+      instantiateSP();
+    });
   }
-  void instantiateSP() async{
+
+  void instantiateSP() async {
     prefs = await SharedPreferences.getInstance();
     checkLoggedInStatus();
   }
 
-  void checkLoggedInStatus() async{
-    if(prefs.containsKey('loggedInUserEmail')){
-      try{
-        User.email=prefs.getString('loggedInUserEmail');
-        User.uid=prefs.getString('loggedInUserUid');
-        User.phone=prefs.getString('loggedInUserPhoneNumber');
-        User.displayName=prefs.getString('loggedInUserDisplayName');
-        User.dob=DateTime.parse(prefs.getString('loggedInUserDOB'));
-        User.primaryAddress=prefs.getString('loggedInUserPrimaryAddress');
-        User.primaryAddressLine1=prefs.getString('loggedInUserPrimaryAddressLine1');
-        User.primaryAddressLine2=prefs.getString('loggedInUserPrimaryAddressLine2');
-        User.primaryAddressCity=prefs.getString('loggedInUserPrimaryAddressCity');
-        User.primaryAddressState=prefs.getString('loggedInUserPrimaryAddressState');
-        User.pincode=prefs.getString('loggedInUserPrimaryAddressPincode');
-        User.aadharNumber=prefs.getString('loggedInUserAadharNumber');
-        User.panNumber=prefs.getString('loggedInUserPanNumber');
-        User.maxIroning=prefs.getString('loggedInUserMaxIroning');
-        User.maxWashing=prefs.getString('loggedInUserMaxWashing');
-        User.maxDryCleaning=prefs.getString('loggedInUserMaxDryCleaning');
-    
+  void checkLoggedInStatus() async {
+    if (prefs.containsKey('loggedInUserEmail')) {
+      try {
+        User.email = prefs.getString('loggedInUserEmail');
+        User.uid = prefs.getString('loggedInUserUid');
+        User.phone = prefs.getString('loggedInUserPhoneNumber');
+        User.displayName = prefs.getString('loggedInUserDisplayName');
+        User.dob = DateTime.parse(prefs.getString('loggedInUserDOB'));
+        User.primaryAddress = prefs.getString('loggedInUserPrimaryAddress');
+        User.placeName = prefs.getString('loggedInUserPlaceName');
+        User.locality = prefs.getString('loggedInUserLocality');
+        User.administrativeArea =
+            prefs.getString('loggedInUserAdministrativeArea');
+        User.landmark = prefs.getString('loggedInUserLandmark');
+        User.pincode = prefs.getString('loggedInUserPincode');
+        User.lattitude = prefs.getDouble('loggedInUserLattitude');
+        User.longitude = prefs.getDouble('loggedInUserLongitude');
         Navigator.pushReplacementNamed(context, '/home_page');
-      }
-      catch(e){
+        //Navigator.pushReplacementNamed(context, '/test_page');
+      } catch (e) {
         print(e);
         prefs.clear();
         _auth.signOut();
         Navigator.pushReplacementNamed(context, '/login_page');
-        
       }
-    }
-    else{
+    } else {
       prefs.clear();
       _auth.signOut();
       Navigator.pushReplacementNamed(context, '/login_page');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,8 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Image.asset(
                 'images/app_logo/LOGO1.png',
                 width: 300,
-                ),
-
+              ),
             ],
           ),
         ),

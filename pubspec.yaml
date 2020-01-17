@@ -33,7 +33,13 @@ dependencies:
   uuid: ^2.0.4
   font_awesome_flutter: ^8.5.0
   auto_size_text: ^2.1.0
-
+  awesome_loader: ^0.0.3
+  google_maps_flutter: ^0.5.21+15
+  geolocator: ^5.1.5
+  flutter_google_places: ^0.2.3
+  location: ^2.3.5
+  google_maps_webservice: ^0.0.16
+  location_permissions: ^2.0.4+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,13 +49,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -60,13 +64,10 @@ flutter:
     - images/app_logo/
     - images/team/
   #  - images/a_dot_ham.jpeg
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

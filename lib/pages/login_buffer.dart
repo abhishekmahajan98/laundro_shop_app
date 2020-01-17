@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:awesome_loader/awesome_loader.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:laundro_shop_app/models/user_model.dart';
@@ -34,39 +35,29 @@ class _BufferPageState extends State<BufferPage> {
       User.displayName = document.data['displayName'];
       User.dob = DateTime.parse(document.data['dob']);
       User.phone = document.data['phoneNumber'];
-      //User.gender = document.data['gender'];
       User.primaryAddress = document.data['primaryAddress'];
-      User.primaryAddressLine1 = document.data['primaryAddressLine1'];
-      User.primaryAddressLine2 = document.data['primaryAddressLine2'];
-      User.primaryAddressCity = document.data['primaryAddressCity'];
-      User.primaryAddressState = document.data['primaryAddressState'];
-      User.pincode = document.data['primaryAddressPincode'];
-      User.aadharNumber=document.data['aadharNumber'];
-      User.panNumber=document.data['panNumber'];
-      User.maxIroning=document.data['maxIroning'];
-      User.maxWashing=document.data['maxWashing'];
-      User.maxDryCleaning=document.data['maxDryCleaning'];
+      User.pincode = document.data['pincode'];
+      User.landmark = document.data['landmark'];
+      User.locality = document.data['locality'];
+      User.placeName = document.data['placeName'];
+      User.administrativeArea = document.data['administrativeArea'];
+      GeoPoint p = document.data['geoLocation'];
+      User.lattitude = p.latitude;
+      User.longitude = p.longitude;
       prefs.setString('loggedInUserEmail', User.email);
       prefs.setString('loggedInUserUid', User.uid);
       prefs.setString('loggedInUserDisplayName', User.displayName);
       prefs.setString('loggedInUserPhoneNumber', User.phone);
       prefs.setString('loggedInUserDOB', User.dob.toString());
-      //prefs.setString('loggedInUserGender', User.gender);
+      prefs.setString('loggedInUserPlaceName', User.placeName);
+      prefs.setString('loggedInUserLocality', User.locality);
+      prefs.setString('loggedInUserPincode', User.pincode);
       prefs.setString(
-          'loggedInUserPrimaryAddressLine1', User.primaryAddressLine1);
-      prefs.setString(
-          'loggedInUserPrimaryAddressLine2', User.primaryAddressLine2);
-      prefs.setString(
-          'loggedInUserPrimaryAddressCity', User.primaryAddressCity);
-      prefs.setString(
-          'loggedInUserPrimaryAddressState', User.primaryAddressState);
-      prefs.setString('loggedInUserPrimaryAddressPincode', User.pincode);
+          'loggedInUserAdministrativeArea', User.administrativeArea);
       prefs.setString('loggedInUserPrimaryAddress', User.primaryAddress);
-      prefs.setString('loggedInUserAadharNumber', User.aadharNumber);
-      prefs.setString('loggedInUserPanNumber', User.panNumber);
-      prefs.setString('loggedInUserMaxIroning', User.maxIroning);
-      prefs.setString('loggedInUserMaxWashing', User.maxWashing);
-      prefs.setString('loggedInUserMaxDryCleaning', User.maxDryCleaning);
+      prefs.setString('loggedInUserLandmark', User.landmark);
+      prefs.setDouble('loggedInUserLattitude', User.lattitude);
+      prefs.setDouble('loggedInUserLongitude', User.longitude);
       navigateToHome();
     } else {
       navigateToDetails();
@@ -78,7 +69,7 @@ class _BufferPageState extends State<BufferPage> {
   }
 
   void navigateToDetails() {
-    Navigator.pushReplacementNamed(context, '/intial_user_details');
+    Navigator.pushReplacementNamed(context, '/initial_user_details');
   }
 
   @override
@@ -100,8 +91,18 @@ class _BufferPageState extends State<BufferPage> {
                 children: <Widget>[
                   Hero(
                     tag: 'logo',
-                    child: Image.asset('images/app_logo/LOGO1.png'),
+                    child: Image.asset(
+                      'images/app_logo/LOGO1.png',
+                      width: 300,
+                    ),
                   ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  AwesomeLoader(
+                    loaderType: AwesomeLoader.AwesomeLoader3,
+                    color: Colors.white,
+                  )
                 ],
               ),
             ),

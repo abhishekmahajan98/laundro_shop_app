@@ -31,11 +31,13 @@ class PreviousOrdersStream extends StatelessWidget {
             final customerName = message.data['customerName'];
             final serviceType = message.data['serviceName'];
             final customerPhoneNumber = message.data['customerPhoneNumber'];
-            final addressline1 = message.data['addressLine1'];
-            final addressline2 = message.data['addressLine2'];
-            final city = message.data['city'];
-            final state = message.data['state'];
+            final primaryAddress = message.data['primaryAddress'];
+            final landmark = message.data['landmark'];
+            final placeName = message.data['placeName'];
+            final locality = message.data['locality'];
+            final administrativeArea = message.data['administrativeArea'];
             final pincode = message.data['pincode'];
+            final GeoPoint geoLocation = message.data['geoLocation'];
             final serviceArea = message.data['serviceArea'];
             final totalClothes = message.data['totalClothes'];
             final paymentMethod = message.data['paymentMethod'];
@@ -48,11 +50,13 @@ class PreviousOrdersStream extends StatelessWidget {
               customerName: customerName,
               serviceType: serviceType,
               customerPhoneNumber: customerPhoneNumber,
-              addressline1: addressline1,
-              addressline2: addressline2,
-              city: city,
-              state: state,
+              placeName: placeName,
+              locality: locality,
+              administrativeArea: administrativeArea,
               pincode: pincode,
+              primaryAddress: primaryAddress,
+              landmark: landmark,
+              geoLocation: geoLocation,
               serviceArea: serviceArea,
               totalClothes: totalClothes,
               paymentMethod: paymentMethod,

@@ -16,15 +16,16 @@ class _ShopDetailsState extends State<ShopDetails> {
   //String washing='';
   //String drycleaning='';
   @override
-  initState(){
+  initState() {
     super.initState();
     instantiateSP();
   }
-  void instantiateSP()async{
-    prefs= await SharedPreferences.getInstance();
+
+  void instantiateSP() async {
+    prefs = await SharedPreferences.getInstance();
   }
 
-  Widget _buildironing(){
+  Widget _buildironing() {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
@@ -42,31 +43,24 @@ class _ShopDetailsState extends State<ShopDetails> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            User.maxIroning=value;
+            User.maxIroning = value;
           });
-
         },
         keyboardType: TextInputType.phone,
-
-
         style: TextStyle(
-
           color: Colors.white,
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
           labelText: 'No of clothes you can iron in day',
-          contentPadding: EdgeInsets.only(top: 4.0,left: 10.0),
+          contentPadding: EdgeInsets.only(top: 4.0, left: 10.0),
           labelStyle: TextStyle(color: Colors.white),
-
         ),
       ),
-
     );
-
-
   }
-  Widget _buildwashing(){
+
+  Widget _buildwashing() {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
@@ -84,31 +78,24 @@ class _ShopDetailsState extends State<ShopDetails> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            User.maxWashing=value;
+            User.maxWashing = value;
           });
-
         },
         keyboardType: TextInputType.phone,
-
-
         style: TextStyle(
-
           color: Colors.white,
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
           labelText: 'No of clothes you can wash in a day',
-          contentPadding: EdgeInsets.only(top: 4.0,left: 10.0),
+          contentPadding: EdgeInsets.only(top: 4.0, left: 10.0),
           labelStyle: TextStyle(color: Colors.white),
-
         ),
       ),
-
     );
-
-
   }
-  Widget _builddrycleaning(){
+
+  Widget _builddrycleaning() {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
@@ -126,41 +113,31 @@ class _ShopDetailsState extends State<ShopDetails> {
       child: TextFormField(
         onChanged: (value) {
           setState(() {
-            User.maxDryCleaning=value;
+            User.maxDryCleaning = value;
           });
-
         },
         keyboardType: TextInputType.phone,
-
-
         style: TextStyle(
-
           color: Colors.white,
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
           labelText: 'No of clothes you can dry clean in day',
-          contentPadding: EdgeInsets.only(top: 4.0,left: 10.0),
+          contentPadding: EdgeInsets.only(top: 4.0, left: 10.0),
           labelStyle: TextStyle(color: Colors.white),
-
         ),
       ),
-
     );
-
-
   }
-   Widget _nextbutton(){
+
+  Widget _nextbutton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Text(
           'Next',
           style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20
-          ),
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
         SizedBox(
           width: 10,
@@ -171,30 +148,18 @@ class _ShopDetailsState extends State<ShopDetails> {
             Icons.arrow_forward_ios,
             color: Colors.blue,
           ),
-          onPressed: (){
-            if(User.maxIroning.length>0 && User.maxWashing.length>0 && User.maxDryCleaning.length>0) {
-              User.primaryAddress = User.primaryAddressLine1 +
-                  '+' +
-                  User.primaryAddressLine2 +
-                  '+' +
-                  User.primaryAddressCity +
-                  '+' +
-                  User.primaryAddressState +
-                  '+' +
-                  User.pincode;
-                  print(User.displayName);
+          onPressed: () {
+            if (User.maxIroning.length > 0 &&
+                User.maxWashing.length > 0 &&
+                User.maxDryCleaning.length > 0) {
               prefs.setString('loggedInUserDisplayName', User.displayName);
               prefs.setString('loggedInUserPhoneNumber', User.phone);
               prefs.setString('loggedInUserDOB', User.dob.toString());
-              
-              prefs.setString(
-                  'loggedInUserPrimaryAddressLine1', User.primaryAddressLine1);
-              prefs.setString(
-                  'loggedInUserPrimaryAddressLine2', User.primaryAddressLine2);
-              prefs.setString(
-                  'loggedInUserPrimaryAddressCity', User.primaryAddressCity);
-              prefs.setString(
-                  'loggedInUserPrimaryAddressState', User.primaryAddressState);
+
+              //prefs.setString('loggedInUserPrimaryAddressLine1', User.primaryAddressLine1);
+              //prefs.setString('loggedInUserPrimaryAddressLine2', User.primaryAddressLine2);
+              //prefs.setString('loggedInUserPrimaryAddressCity', User.primaryAddressCity);
+              //prefs.setString('loggedInUserPrimaryAddressState', User.primaryAddressState);
               prefs.setString(
                   'loggedInUserPrimaryAddressPincode', User.pincode);
               prefs.setString(
@@ -203,29 +168,25 @@ class _ShopDetailsState extends State<ShopDetails> {
                 'email': User.email,
                 'displayName': User.displayName,
                 'phoneNumber': User.phone,
-                
                 'dob': User.dob.toString(),
                 'primaryAddress': User.primaryAddress,
-                'primaryAddressLine1': User.primaryAddressLine1,
-                'primaryAddressLine2': User.primaryAddressLine2,
-                'primaryAddressCity': User.primaryAddressCity,
-                'primaryAddressState': User.primaryAddressState,
+                //'primaryAddressLine1': User.primaryAddressLine1,
+                //'primaryAddressLine2': User.primaryAddressLine2,
+                //'primaryAddressCity': User.primaryAddressCity,
+                //'primaryAddressState': User.primaryAddressState,
                 'primaryAddressPincode': User.pincode,
-                'primaryAddress':User.primaryAddress,
-                'maxironing':User.maxIroning,
-                'maxWashing':User.maxWashing,
-                'maxDryCleaning':User.maxDryCleaning,
-                'aadharNumber':User.aadharNumber,
-                'panNumber':User.panNumber,
+                'primaryAddress': User.primaryAddress,
+                'maxironing': User.maxIroning,
+                'maxWashing': User.maxWashing,
+                'maxDryCleaning': User.maxDryCleaning,
+                'aadharNumber': User.aadharNumber,
+                'panNumber': User.panNumber,
               });
               Navigator.pushReplacementNamed(context, '/home_page');
-            }
-            
-             else {
-                Alert(
+            } else {
+              Alert(
                   context: context,
                   title: 'Please Enter Minimum 50 clothes  ',
-                  
                   buttons: [
                     DialogButton(
                       child: Text('Okay'),
@@ -235,10 +196,12 @@ class _ShopDetailsState extends State<ShopDetails> {
                     ),
                   ]).show();
             }
-          },),
+          },
+        ),
       ],
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -246,7 +209,6 @@ class _ShopDetailsState extends State<ShopDetails> {
       body: Stack(
         children: <Widget>[
           Container(
-
             height: double.infinity,
             width: double.infinity,
             decoration: BoxDecoration(

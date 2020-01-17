@@ -13,10 +13,9 @@ import 'package:laundro_shop_app/pages/splash_page.dart';
 import 'package:laundro_shop_app/pages/summary_page.dart';
 import 'package:laundro_shop_app/pages/about_page.dart';
 import 'package:laundro_shop_app/pages/initial_user_details.dart';
-import 'package:laundro_shop_app/pages/initial_address_details.dart';
 import 'package:laundro_shop_app/pages/my_account.dart';
+import 'package:laundro_shop_app/pages/user_initial_location_page.dart';
 import 'package:laundro_shop_app/test_pages/test_page.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -37,14 +36,15 @@ class MyApp extends StatelessWidget {
         '/register_page': (context) => RegisterScreen(),
         '/reset_password': (context) => ResetPasswordScreen(),
         '/login_page': (context) => LoginScreen(),
-        '/about_page':(context)=>AboutPage(),
-        '/initial_user_details':(context)=>InitialShopDetails(),
-        '/initial_shop_information':(context)=>ShopDetails(),
-        '/initial_address_details':(context)=>ShopAddress(),
-        '/buffer_page':(context)=>BufferPage(),
-        '/myaccount_page':(context)=>MyAccount(),
-        '/test_page':(context)=>TestPage(),
-        '/contact_us':(context)=>ContactUs(),
+        '/about_page': (context) => AboutPage(),
+        '/initial_user_details': (context) => InitialShopDetails(),
+        '/initial_shop_information': (context) => ShopDetails(),
+        //'/initial_address_details': (context) => ShopAddress(),
+        '/initial_location_page': (context) => UserLocationPage(),
+        '/buffer_page': (context) => BufferPage(),
+        '/myaccount_page': (context) => MyAccount(),
+        '/test_page': (context) => TestPage(),
+        '/contact_us': (context) => ContactUs(),
       },
     );
   }

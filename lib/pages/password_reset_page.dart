@@ -14,7 +14,7 @@ class ResetPasswordScreen extends StatefulWidget {
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _auth = FirebaseAuth.instance;
 
-  String email, password;
+  String email = '', password;
   bool showSpinner = false;
 
   Widget _buildEmailTF() {
@@ -61,20 +61,30 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
-          _auth.sendPasswordResetEmail(email: email);
-          Alert(
-              context: context,
-              title: 'Reset password E-mail sent.',
-              desc:
-                  'Click on the link in the e-mail sent and it will redirect you to the page to reset the password.',
-              buttons: [
-                DialogButton(
-                  child: Text('Okay'),
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/login');
-                  },
-                ),
-              ]).show();
+          try {
+            if (email != null &&
+                email != '' &&
+                RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(email)) {
+              _auth.sendPasswordResetEmail(email: email);
+              Alert(
+                context: context,
+                title: 'Reset password E-mail sent.',
+                desc:
+                    'Click on the link in the e-mail sent and it will redirect you to the page to reset the password.',
+                buttons: [
+                  DialogButton(
+                    child: Text('Okay'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ).show();
+            }
+          } on PlatformException catch (e) {
+            print(e.toString());
+          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(

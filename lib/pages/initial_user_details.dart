@@ -3,8 +3,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'package:laundro_shop_app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-class InitialShopDetails extends StatefulWidget {
 
+class InitialShopDetails extends StatefulWidget {
   @override
   _InitialShopDetails createState() => _InitialShopDetails();
 }
@@ -16,10 +16,10 @@ class _InitialShopDetails extends State<InitialShopDetails> {
   String selectedMonth;
   String selectedYear;
   SharedPreferences prefs;
-  String phone='';
-  String displayName='';
+  String phone = '';
+  String displayName = '';
 
-  Widget _buildName(){
+  Widget _buildName() {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
@@ -38,27 +38,23 @@ class _InitialShopDetails extends State<InitialShopDetails> {
         initialValue: User.displayName,
         onChanged: (value) {
           setState(() {
-            User.displayName=value;
+            User.displayName = value;
           });
         },
-
         style: TextStyle(
           color: Colors.white,
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
           labelText: 'Name',
-          contentPadding: EdgeInsets.only(top: 4.0,left: 44.0),
+          contentPadding: EdgeInsets.only(top: 4.0, left: 44.0),
           labelStyle: TextStyle(color: Colors.white),
-
         ),
       ),
-
     );
-
-
   }
-  Widget _buildphone(){
+
+  Widget _buildphone() {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
@@ -77,26 +73,21 @@ class _InitialShopDetails extends State<InitialShopDetails> {
         initialValue: User.phone,
         onChanged: (value) {
           setState(() {
-            phone=value;
+            phone = value;
           });
-          
         },
-        
         keyboardType: TextInputType.phone,
         style: TextStyle(
-          color:Colors.white,
-          
+          color: Colors.white,
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
-          labelText: "Phone Number" ,
-          contentPadding: EdgeInsets.only(top: 4.0,left: 44.0),
+          labelText: "Phone Number",
+          contentPadding: EdgeInsets.only(top: 4.0, left: 44.0),
           labelStyle: TextStyle(color: Colors.white),
-
         ),
       ),
     );
-
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -110,14 +101,14 @@ class _InitialShopDetails extends State<InitialShopDetails> {
         User.dob = picked;
       });
   }
-  Widget _buildDOB(){
+
+  Widget _buildDOB() {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       title: Container(
         alignment: Alignment.centerLeft,
         height: 60.0,
         decoration: BoxDecoration(
-
           color: Color(0xFF6CA8F1),
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [
@@ -130,22 +121,24 @@ class _InitialShopDetails extends State<InitialShopDetails> {
         ),
         child: TextField(
           enabled: false,
-
-
           decoration: InputDecoration(
-
             border: InputBorder.none,
-            hintText: selectedDay!=null?"DOB:   "+selectedDay+"/"+selectedMonth+"/"+selectedYear:'Select your DOB',
-            contentPadding:EdgeInsets.only(left: 40.0),
+            hintText: selectedDay != null
+                ? "DOB:   " +
+                    selectedDay +
+                    "/" +
+                    selectedMonth +
+                    "/" +
+                    selectedYear
+                : 'Select your DOB',
+            contentPadding: EdgeInsets.only(left: 40.0),
             hintStyle: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
-
           ),
-          onChanged: (value){
-            setState(() {
-            });
+          onChanged: (value) {
+            setState(() {});
           },
         ),
       ),
@@ -154,17 +147,18 @@ class _InitialShopDetails extends State<InitialShopDetails> {
           Icons.calendar_today,
           color: Colors.white,
         ),
-        onTap: () async{
+        onTap: () async {
           await _selectDate(context);
-          selectedDay=User.dob.day.toString();
-          selectedMonth=User.dob.month.toString();
-          selectedYear=User.dob.year.toString();
+          selectedDay = User.dob.day.toString();
+          selectedMonth = User.dob.month.toString();
+          selectedYear = User.dob.year.toString();
           //print(dob.toString());
         },
       ),
     );
   }
-  Widget _buildaadharnumber(){
+
+  Widget _buildaadharnumber() {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
@@ -182,28 +176,22 @@ class _InitialShopDetails extends State<InitialShopDetails> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            User.aadharNumber=value;
+            User.aadharNumber = value;
           });
-
         },
         keyboardType: TextInputType.phone,
-        style: TextStyle(
-            color: Colors.white
-        ),
+        style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
           border: InputBorder.none,
-
-          labelText: "Aadhaar card number" ,
-          contentPadding: EdgeInsets.only(top: 4.0,left: 44.0),
+          labelText: "Aadhaar card number",
+          contentPadding: EdgeInsets.only(top: 4.0, left: 44.0),
           labelStyle: TextStyle(color: Colors.white),
-
         ),
       ),
     );
-
   }
 
-  Widget _buildpannumber(){
+  Widget _buildpannumber() {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
@@ -221,9 +209,8 @@ class _InitialShopDetails extends State<InitialShopDetails> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            User.panNumber=value;
+            User.panNumber = value;
           });
-
         },
         keyboardType: TextInputType.phone,
         style: TextStyle(
@@ -231,27 +218,22 @@ class _InitialShopDetails extends State<InitialShopDetails> {
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
-
-          labelText: "Pan card number" ,
-          contentPadding: EdgeInsets.only(top: 4.0,left: 44.0),
+          labelText: "Pan card number",
+          contentPadding: EdgeInsets.only(top: 4.0, left: 44.0),
           labelStyle: TextStyle(color: Colors.white),
-
         ),
       ),
     );
-
   }
-  Widget _nextbutton(){
+
+  Widget _nextbutton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Text(
           'Next',
           style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20
-          ),
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
         SizedBox(
           width: 10,
@@ -262,45 +244,42 @@ class _InitialShopDetails extends State<InitialShopDetails> {
             Icons.arrow_forward_ios,
             color: Colors.blue,
           ),
-          onPressed: (){
-            if(phone!=null){
-              User.phone=phone;
+          onPressed: () {
+            if (phone != null) {
+              User.phone = phone;
             }
-            if(User.displayName!='' &&User.displayName!=null && phone.length==10 && User.dob!=null ){
+            if (User.displayName != '' &&
+                User.displayName != null &&
+                phone.length == 10 &&
+                User.dob != null) {
               //print(User.displayName);
-              Navigator.pushReplacementNamed(context, '/initial_address_details');
-          }
-            
-                 else{
-                Alert(
-                    context: context,
-                    title: 'Please fill the Details Properly ',
-                  
-                    buttons: [
-                      DialogButton(
-                        child: Text('Okay'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ]).show();    
-                 }
-          },),
+              Navigator.pushReplacementNamed(context, '/initial_location_page');
+            } else {
+              Alert(
+                  context: context,
+                  title: 'Please fill the Details Properly ',
+                  buttons: [
+                    DialogButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ]).show();
+            }
+          },
+        ),
       ],
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
           Container(
-
             height: double.infinity,
             width: double.infinity,
             decoration: BoxDecoration(
@@ -345,21 +324,12 @@ class _InitialShopDetails extends State<InitialShopDetails> {
                   _buildpannumber(),
                   SizedBox(height: 30.0),
                   _nextbutton(),
-
-
-
                 ],
               ),
             ),
           ),
-
-
         ],
-
       ),
-
-
     );
-
   }
 }
