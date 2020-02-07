@@ -85,20 +85,21 @@ const kBlackLabelTextStyle = TextStyle(
   fontWeight: FontWeight.normal,
   fontSize: 18.0,
 );
-const kExtraLargeBlackTextStyle=TextStyle(
+const kExtraLargeBlackTextStyle = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.bold,
   fontSize: 36,
 );
-const kLargeBlackTextStyle=TextStyle(
+const kLargeBlackTextStyle = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.bold,
   fontSize: 25,
 );
-const kOrderCardTextStyle=TextStyle(
+const kOrderCardTextStyle = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.normal,
   fontSize: 18,
 );
-const Color selectedIconColor=Colors.blue;
-const Color nonSelectedIconColor=Colors.black;
+const Color selectedIconColor = Color(0xFF77d97a);
+const Color nonSelectedIconColor = Colors.black;
+const Color mainColor = Color(0xFF77d97a);

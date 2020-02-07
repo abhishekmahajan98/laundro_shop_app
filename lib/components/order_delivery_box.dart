@@ -8,8 +8,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 final _firestore = Firestore.instance;
 
-class ActiveOrdersBox extends StatefulWidget {
-  ActiveOrdersBox({
+class OrderDeliveryBox extends StatefulWidget {
+  OrderDeliveryBox({
     this.orderId,
     @required this.customerName,
     @required this.serviceType,
@@ -31,6 +31,7 @@ class ActiveOrdersBox extends StatefulWidget {
     @required this.clothList,
     @required this.orderTimestamp,
     @required this.customerUid,
+    @required this.totalOrderPrice,
   });
   final String customerName;
   final String orderId;
@@ -51,13 +52,14 @@ class ActiveOrdersBox extends StatefulWidget {
   final String pickupOtp;
   final String customerUid;
   final DateTime orderTimestamp;
+  final String totalOrderPrice;
   final Map<dynamic, dynamic> clothList;
   final bool isPickedUp;
   @override
-  _ActiveOrdersBoxState createState() => _ActiveOrdersBoxState();
+  _OrderDeliveryBoxState createState() => _OrderDeliveryBoxState();
 }
 
-class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
+class _OrderDeliveryBoxState extends State<OrderDeliveryBox> {
   String deliveryOtpEntered = '';
   String pickupOtpEntered = '';
   String issueEntered = '';
@@ -124,7 +126,7 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                     children: <Widget>[
                       Text('total clothes:' + widget.totalClothes),
                       RaisedButton(
-                        color: Color(0XFF6bacde),
+                        color: mainColor,
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -140,59 +142,59 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                   ),
                 ),
                 ListTile(
-                  leading: RaisedButton(
-                    color: Color(0XFF6bacde),
-                    onPressed: () async {
-                      final document = await _firestore
-                          .collection('orders')
-                          .document(widget.orderId)
-                          .get();
-                      if (document['isPickedUp'] == true) {
+                  leading: Text(
+                    'Order Total:₹ ' + widget.totalOrderPrice,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.height / 40,
+                    ),
+                  ),
+                  trailing: Text(
+                    'Payment Mode:' + widget.paymentMethod,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: RaisedButton(
+                      color: mainColor,
+                      onPressed: () async {
                         Alert(
                             context: context,
-                            title: 'Order has already been picked up!!',
-                            buttons: [
-                              DialogButton(
-                                child: Text('Okay'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ]).show();
-                      } else {
-                        Alert(
-                            context: context,
-                            title: 'Enter the OTP',
+                            title: 'Please enter the delivery OTP',
                             content: ListTile(
-                              leading: Text('OTP'),
+                              leading: Text('OTP:'),
                               title: TextField(
                                 maxLength: 4,
                                 textAlign: TextAlign.center,
                                 style: kBlackLabelStyle,
                                 onChanged: (value) {
-                                  pickupOtpEntered = value;
+                                  deliveryOtpEntered = value;
                                 },
                               ),
                             ),
                             buttons: [
                               DialogButton(
-                                child: Text('Okay'),
                                 onPressed: () {
-                                  if (pickupOtpEntered == widget.pickupOtp) {
-                                    _firestore
-                                        .collection('orders')
-                                        .document(widget.orderId)
-                                        .updateData({
-                                      'isPickedUp': true,
-                                    });
+                                  if (deliveryOtpEntered ==
+                                      widget.deliveryOtp) {
                                     Alert(
                                         context: context,
-                                        title: 'Order picked up!!',
+                                        title: 'Order has been delivered!!',
                                         buttons: [
                                           DialogButton(
                                             child: Text('Okay'),
                                             onPressed: () {
                                               Navigator.pop(context);
+                                              _firestore
+                                                  .collection('orders')
+                                                  .document(widget.orderId)
+                                                  .updateData({
+                                                'orderStatus': 'delivered',
+                                              });
                                               Navigator.pop(context);
                                             },
                                           ),
@@ -200,118 +202,26 @@ class _ActiveOrdersBoxState extends State<ActiveOrdersBox> {
                                   } else {
                                     Alert(
                                         context: context,
-                                        title: 'Wrong OTP',
-                                        desc:
-                                            'Please enter the OTP told by the customer.',
+                                        title: 'Wrong OTP.',
                                         buttons: [
                                           DialogButton(
-                                            child: Text('Okay'),
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
+                                            child: Text('Okay'),
                                           ),
                                         ]).show();
                                   }
                                 },
+                                child: Text('Okay'),
                               ),
                               DialogButton(
-                                child: Text('Cancel'),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                              ),
+                                child: Text('Cancel'),
+                              )
                             ]).show();
-                      }
-                    },
-                    child: Text(
-                      'Pick Up',
-                    ),
-                  ),
-                  title: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: RaisedButton(
-                      color: Color(0XFF6bacde),
-                      onPressed: () async {
-                        final document = await _firestore
-                            .collection('orders')
-                            .document(widget.orderId)
-                            .get();
-                        if (document['isPickedUp'] == true) {
-                          Alert(
-                              context: context,
-                              title: 'Please enter the delivery OTP',
-                              content: ListTile(
-                                leading: Text('OTP:'),
-                                title: TextField(
-                                  maxLength: 4,
-                                  textAlign: TextAlign.center,
-                                  style: kBlackLabelStyle,
-                                  onChanged: (value) {
-                                    deliveryOtpEntered = value;
-                                  },
-                                ),
-                              ),
-                              buttons: [
-                                DialogButton(
-                                  onPressed: () {
-                                    if (deliveryOtpEntered ==
-                                        widget.deliveryOtp) {
-                                      Alert(
-                                          context: context,
-                                          title: 'Order has been delivered!!',
-                                          buttons: [
-                                            DialogButton(
-                                              child: Text('Okay'),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                                _firestore
-                                                    .collection('orders')
-                                                    .document(widget.orderId)
-                                                    .updateData({
-                                                  'orderStatus': 'delivered',
-                                                });
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ]).show();
-                                    } else {
-                                      Alert(
-                                          context: context,
-                                          title: 'Wrong OTP.',
-                                          buttons: [
-                                            DialogButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text('Okay'),
-                                            ),
-                                          ]).show();
-                                    }
-                                  },
-                                  child: Text('Okay'),
-                                ),
-                                DialogButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('Cancel'),
-                                )
-                              ]).show();
-                        } else {
-                          Alert(
-                              context: context,
-                              title: 'Order has not been picked up yet!',
-                              desc:
-                                  'Please pick up the order first by asking for the otp from the customer. If you have picked up the order already and updated the order in the application, please raise an issue using the button beside delivered button',
-                              buttons: [
-                                DialogButton(
-                                  child: Text('Okay'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ]).show();
-                        }
                       },
                       child: Text('Delivered'),
                     ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/constants.dart';
 import 'package:laundro_shop_app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,6 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
         User.lattitude = prefs.getDouble('loggedInUserLattitude');
         User.longitude = prefs.getDouble('loggedInUserLongitude');
         Navigator.pushReplacementNamed(context, '/home_page');
+
         //Navigator.pushReplacementNamed(context, '/test_page');
       } catch (e) {
         print(e);
@@ -65,13 +67,13 @@ class _SplashScreenState extends State<SplashScreen> {
           height: double.infinity,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Color(0XFF6bacde),
+            color: mainColor,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'images/app_logo/LOGO1.png',
+                'images/app_logo/gimmePartner.png',
                 width: 300,
               ),
             ],

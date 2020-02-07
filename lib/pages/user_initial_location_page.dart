@@ -10,6 +10,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+final _firestore = Firestore.instance;
+
 class UserLocationPage extends StatefulWidget {
   @override
   _UserLocationPageState createState() => _UserLocationPageState();
@@ -22,7 +24,7 @@ class _UserLocationPageState extends State<UserLocationPage> {
   String locality = '', pincode = '', administrativeArea = '', placeName = '';
   String inputAddress = '', inputLandmark = '';
   SharedPreferences prefs;
-  final _firestore = Firestore.instance;
+  var batch = _firestore.batch();
 
   @override
   void initState() {
@@ -239,22 +241,31 @@ class _UserLocationPageState extends State<UserLocationPage> {
                   'loggedInUserPrimaryAddress', User.primaryAddress);
               prefs.setString('loggedInUserLandmark', User.landmark);
               prefs.setDouble('loggedInUserLattitude', User.lattitude);
-              prefs.setDouble('loggedInuserLongitude', User.longitude);
-              _firestore.document('shop/' + User.uid).setData({
-                'uid': User.uid,
-                'email': User.email,
-                'displayName': User.displayName,
-                'phoneNumber': User.phone,
-                'dob': User.dob.toString(),
-                'placeName': User.placeName,
-                'locality': User.locality,
-                'administrativeArea': User.administrativeArea,
-                'pincode': User.pincode,
-                'primaryAddress': User.primaryAddress,
-                'landmark': User.landmark,
-                'geoLocation': GeoPoint(User.lattitude, User.longitude),
+              prefs.setDouble('loggedInUserLongitude', User.longitude);
+              //prefs.setDouble('loggedInUserServiceRadius', User.serviceRadius);
+              batch.setData(
+                _firestore.document('shop/' + User.uid),
+                {
+                  'uid': User.uid,
+                  'email': User.email,
+                  'displayName': User.displayName,
+                  'phoneNumber': User.phone,
+                  'dob': User.dob.toString(),
+                  'placeName': User.placeName,
+                  'locality': User.locality,
+                  'administrativeArea': User.administrativeArea,
+                  'pincode': User.pincode,
+                  'primaryAddress': User.primaryAddress,
+                  'landmark': User.landmark,
+                  'geoLocation': GeoPoint(User.lattitude, User.longitude),
+                  'aadharNumber': User.aadharNumber,
+                  'panNumber': User.panNumber,
+                  //'serviceRadius': User.serviceRadius,
+                },
+              );
+              batch.commit().then((val) {
+                Navigator.pushReplacementNamed(context, '/home_page');
               });
-              Navigator.pushReplacementNamed(context, '/home_page');
             }
           } catch (e) {
             Alert(

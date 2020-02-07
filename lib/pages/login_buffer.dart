@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:awesome_loader/awesome_loader.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/constants.dart';
 import 'package:laundro_shop_app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -82,7 +83,7 @@ class _BufferPageState extends State<BufferPage> {
               height: double.infinity,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color(0XFF6bacde),
+                color: mainColor,
               ),
             ),
             Center(
@@ -92,7 +93,7 @@ class _BufferPageState extends State<BufferPage> {
                   Hero(
                     tag: 'logo',
                     child: Image.asset(
-                      'images/app_logo/LOGO1.png',
+                      'images/app_logo/gimmePartner.png',
                       width: 300,
                     ),
                   ),

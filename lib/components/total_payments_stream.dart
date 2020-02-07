@@ -6,11 +6,16 @@ import 'package:laundro_shop_app/models/user_model.dart';
 
 final _firestore = Firestore.instance;
 FirebaseUser loggedInUser;
+
 class TotalPaymentsStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _firestore.collection('orders').where("shopId", isEqualTo: User.uid).where('orderStatus',isEqualTo:"delivered").snapshots(),
+      stream: _firestore
+          .collection('orders')
+          .where("shopId", isEqualTo: User.uid)
+          .where('orderStatus', isEqualTo: "delivered")
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Row(
@@ -18,24 +23,23 @@ class TotalPaymentsStream extends StatelessWidget {
             children: <Widget>[
               Center(
                 child: CircularProgressIndicator(
-                  backgroundColor: Colors.lightBlueAccent,
+                  backgroundColor: mainColor,
                 ),
               ),
             ],
           );
         }
         final orders = snapshot.data.documents;
-        double sumOfOrders=0;
-        for(var order in orders){
-          sumOfOrders+=double.parse(order.data['totalOrderPrice'])-double.parse(order.data['orderCommission']);
-          //print(sumOfOrders);
+        double sumOfOrders = 0;
+        for (var order in orders) {
+          sumOfOrders += double.parse(order.data['totalOrderPrice']);
         }
         return Expanded(
           flex: 3,
           child: Container(
             margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
             decoration: BoxDecoration(
-              color: Color(0XFF6bacde),
+              color: mainColor,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -46,23 +50,22 @@ class TotalPaymentsStream extends StatelessWidget {
                     child: Text(
                       'Lifetime Earning',
                       style: kLargeBlackTextStyle,
-                      ),
+                    ),
                   ),
                 ),
                 Center(
-                  child: Text(
-                    '₹ '+sumOfOrders.toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 36,
-                    ),
-                  )
-                ),
+                    child: Text(
+                  '₹ ' + sumOfOrders.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 36,
+                  ),
+                )),
               ],
             ),
           ),
         );
-      }
+      },
     );
   }
 }

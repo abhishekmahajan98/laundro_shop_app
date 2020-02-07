@@ -15,6 +15,8 @@ class PreviousOrdersStream extends StatelessWidget {
             .collection('orders')
             .where("shopId", isEqualTo: User.uid)
             .where('orderStatus', isEqualTo: "delivered")
+            .orderBy('orderTimestamp')
+            .limit(30)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {

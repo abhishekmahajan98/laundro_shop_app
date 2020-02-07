@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:laundro_shop_app/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:laundro_shop_app/models/user_model.dart';
 
@@ -29,7 +30,7 @@ class _SideDrawerState extends State<SideDrawer> {
                   )),
             ),
             decoration: BoxDecoration(
-              color: Color(0xFF73AEF5),
+              color: mainColor,
             ),
           ),
           //body
@@ -39,7 +40,7 @@ class _SideDrawerState extends State<SideDrawer> {
               title: Text('My Account'),
               leading: Icon(
                 Icons.person,
-                color: Color(0xFF73AEF5),
+                color: mainColor,
               ),
             ),
           ),
@@ -49,7 +50,7 @@ class _SideDrawerState extends State<SideDrawer> {
               title: Text('About us'),
               leading: Icon(
                 Icons.help,
-                color: Color(0xFF73AEF5),
+                color: mainColor,
               ),
             ),
           ),
@@ -59,12 +60,23 @@ class _SideDrawerState extends State<SideDrawer> {
               title: Text('Contact us'),
               leading: Icon(
                 Icons.contact_phone,
-                color: Color(0xFF73AEF5),
+                color: mainColor,
               ),
             ),
           ),
           InkWell(
-            onTap: ()  async {
+            onTap: () =>
+                Navigator.pushNamed(context, '/payment_settlement_page'),
+            child: ListTile(
+              title: Text('Payment Settlement'),
+              leading: Icon(
+                Icons.attach_money,
+                color: mainColor,
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () async {
               prefs = await SharedPreferences.getInstance();
               prefs.clear();
               _auth.signOut();
@@ -76,19 +88,7 @@ class _SideDrawerState extends State<SideDrawer> {
               title: Text('Logout'),
               leading: Icon(
                 Icons.exit_to_app,
-                color: Color(0xFF73AEF5),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: ()  {
-              Navigator.pushNamed(context, '/test_page');
-            },
-            child: ListTile(
-              title: Text('Test Page'),
-              leading: Icon(
-                Icons.exit_to_app,
-                color: Color(0xFF73AEF5),
+                color: mainColor,
               ),
             ),
           ),

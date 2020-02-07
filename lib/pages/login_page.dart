@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           height: 3 * (MediaQuery.of(context).size.height / 20),
           width: 7 * (MediaQuery.of(context).size.width / 10),
-          child: Image.asset('images/app_logo/LOGO1.png'),
+          child: Image.asset('images/app_logo/gimmePartner.png'),
         ),
       ),
     );
@@ -93,7 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: EdgeInsets.only(bottom: 15),
       child: Container(
         alignment: Alignment.centerLeft,
-        decoration: kBoxDecorationStyle,
         height: 1.5 * (MediaQuery.of(context).size.height / 20),
         width: 8 * (MediaQuery.of(context).size.width / 10),
         child: TextField(
@@ -105,7 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
             color: Colors.white,
           ),
           decoration: InputDecoration(
-            border: InputBorder.none,
             contentPadding: EdgeInsets.only(top: 14.0),
             prefixIcon: Icon(
               Icons.email,
@@ -124,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: EdgeInsets.only(bottom: 5),
       child: Container(
         alignment: Alignment.centerLeft,
-        decoration: kBoxDecorationStyle,
         height: 1.5 * (MediaQuery.of(context).size.height / 20),
         width: 8 * (MediaQuery.of(context).size.width / 10),
         child: TextField(
@@ -136,7 +133,6 @@ class _LoginScreenState extends State<LoginScreen> {
             color: Colors.white,
           ),
           decoration: InputDecoration(
-            border: InputBorder.none,
             contentPadding: EdgeInsets.only(top: 14.0),
             prefixIcon: Icon(
               Icons.lock,
@@ -220,41 +216,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Text(
           'LOGIN',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: mainColor,
             letterSpacing: 1.5,
             fontSize: MediaQuery.of(context).size.height / 35,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSignupBtn() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 5),
-      child: FlatButton(
-        onPressed: () => Navigator.pushNamed(context, '/register_page'),
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'Don\'t have an Account? ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.height / 40,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              TextSpan(
-                text: 'Sign Up',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.height / 40,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
           ),
         ),
       ),
@@ -274,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Color(0XFF6bacde),
+                  color: mainColor,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -284,7 +249,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     _buildPasswordTF(),
                     _buildForgotPasswordBtn(),
                     _buildLoginBtn(),
-                    _buildSignupBtn(),
                   ],
                 ),
               ),

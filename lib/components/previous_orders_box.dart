@@ -106,17 +106,34 @@ class _PreviousOrdersBoxState extends State<PreviousOrdersBox> {
                   style: kOrderCardTextStyle,
                 ),
                 ListTile(
+                  leading: Text(
+                    'Order Total:₹ ' + widget.totalOrderprice,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.height / 40,
+                    ),
+                  ),
+                  trailing: Text(
+                    'Payment Mode:' + widget.paymentMethod,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                ListTile(
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 0, horizontal: 5),
                   title: Text('total clothes:' + widget.totalClothes),
                   trailing: RaisedButton(
+                    color: mainColor,
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ClothDetails(
-                                  clothList: widget.clothList,
-                                )),
+                          builder: (context) => ClothDetails(
+                            clothList: widget.clothList,
+                          ),
+                        ),
                       );
                     },
                     child: Text('Clothes details'),

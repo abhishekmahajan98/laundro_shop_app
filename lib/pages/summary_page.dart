@@ -21,31 +21,31 @@ class _SummaryPageState extends State<SummaryPage> {
   String toDay;
   String toMonth;
   String toYear;
-  bool spinner=false;
+  bool spinner = false;
   Future<void> _selectfromDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1950, 1),
-        lastDate: DateTime.now()
-      );
+        lastDate: DateTime.now());
     if (picked != null && picked != fromDate)
       setState(() {
         fromDate = picked;
       });
   }
+
   Future<void> _selecttoDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1950, 1),
-        lastDate: DateTime.now()
-      );
+        lastDate: DateTime.now());
     if (picked != null && picked != toDate)
       setState(() {
         toDate = picked;
       });
   }
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -57,7 +57,6 @@ class _SummaryPageState extends State<SummaryPage> {
         child: Column(
           children: <Widget>[
             TotalPaymentsStream(),
-            
             TotalClothesStream(),
             Expanded(
               flex: 7,
@@ -67,13 +66,12 @@ class _SummaryPageState extends State<SummaryPage> {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.fromLTRB(15, 10, 15, 5),
-                      decoration: BoxDecoration(
-                        color: Colors.white
-                      ),
+                      decoration: BoxDecoration(color: Colors.white),
                       child: Column(
                         children: <Widget>[
                           ListTile(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 30),
                             leading: Text(
                               '₹',
                               style: TextStyle(
@@ -86,102 +84,130 @@ class _SummaryPageState extends State<SummaryPage> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () async{
+                            onTap: () async {
                               await _selectfromDate(context);
-                              if(fromDate!=null){
-                                fromDay=fromDate.day.toString();
-                                fromMonth=fromDate.month.toString();
-                                fromYear=fromDate.year.toString();
+                              if (fromDate != null) {
+                                fromDay = fromDate.day.toString();
+                                fromMonth = fromDate.month.toString();
+                                fromYear = fromDate.year.toString();
                               }
                             },
                             child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 25),
-                            leading: Icon(
-                              Icons.calendar_today,
-                              color: Colors.black,
-                            ),
-                            title: Container(
-                              alignment: Alignment.centerLeft,
-                              height: 60.0, 
-                              child: TextField(
-                                textAlign: TextAlign.left,
-                                enabled: false,
-                                decoration: InputDecoration(
-                                  hintText: fromDay!=null?"From: "+fromDay+"/"+fromMonth+"/"+fromYear:'Select First Date',
-                                  contentPadding:EdgeInsets.only(left: 10.0),
-                                  hintStyle: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                onChanged: (value){
-                                  setState(() {
-                                  });
-                                },
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 25),
+                              leading: Icon(
+                                Icons.calendar_today,
+                                color: Colors.black,
                               ),
-                            ),
+                              title: Container(
+                                alignment: Alignment.centerLeft,
+                                height: 60.0,
+                                child: TextField(
+                                  textAlign: TextAlign.left,
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                    hintText: fromDay != null
+                                        ? "From: " +
+                                            fromDay +
+                                            "/" +
+                                            fromMonth +
+                                            "/" +
+                                            fromYear
+                                        : 'Select First Date',
+                                    contentPadding: EdgeInsets.only(left: 10.0),
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
                             ),
                           ),
                           GestureDetector(
-                            onTap: () async{
+                            onTap: () async {
                               await _selecttoDate(context);
-                              if(toDate!=null){
-                                toDay=toDate.day.toString();
-                                toMonth=toDate.month.toString();
-                                toYear=toDate.year.toString();
+                              if (toDate != null) {
+                                toDay = toDate.day.toString();
+                                toMonth = toDate.month.toString();
+                                toYear = toDate.year.toString();
                               }
                             },
                             child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 25),
-                            leading: Icon(
-                              Icons.calendar_today,
-                              color: Colors.black,
-                            ),
-                            title: Container(
-                              alignment: Alignment.centerLeft,
-                              height: 60.0, 
-                              child: TextField(
-                                textAlign: TextAlign.left,
-                                enabled: false,
-                                decoration: InputDecoration(
-                                  hintText: toDay!=null?"To: "+toDay+"/"+toMonth+"/"+toYear:'Select Second Date',
-                                  contentPadding:EdgeInsets.only(left: 8.0),
-                                  hintStyle: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                onChanged: (value){
-                                  setState(() {
-                                  });
-                                },
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 25),
+                              leading: Icon(
+                                Icons.calendar_today,
+                                color: Colors.black,
                               ),
-                            ),
+                              title: Container(
+                                alignment: Alignment.centerLeft,
+                                height: 60.0,
+                                child: TextField(
+                                  textAlign: TextAlign.left,
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                    hintText: toDay != null
+                                        ? "To: " +
+                                            toDay +
+                                            "/" +
+                                            toMonth +
+                                            "/" +
+                                            toYear
+                                        : 'Select Second Date',
+                                    contentPadding: EdgeInsets.only(left: 8.0),
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
                             ),
                           ),
-                            ListTile( 
-                              title: Text(
-                                'Calculate earning:',
-                                style: kCategoryTextStyle,
-                              ),
-                              trailing: RaisedButton(
-                                color: Color(0XFF6bacde),
-                                onPressed: ()async{
-                                  try{
-                                    if(toDate!=null && fromDate!=null){
-                                      if(fromDate.isBefore(toDate) && toDate.isBefore(DateTime.now())){
-                                        setState(() {
-                                          spinner=true;
-                                        });
-                                        double earnings=await getEarningBetween(fromDate, toDate);
-                                        setState(() {
-                                          spinner=false;
-                                        });
-                                        Alert(
-                                          context:context,
+                          ListTile(
+                            title: Text(
+                              'Calculate earning:',
+                              style: kCategoryTextStyle,
+                            ),
+                            trailing: RaisedButton(
+                              color: mainColor,
+                              onPressed: () async {
+                                try {
+                                  if (toDate != null && fromDate != null) {
+                                    if (fromDate.isBefore(toDate) &&
+                                        toDate.isBefore(DateTime.now())) {
+                                      setState(() {
+                                        spinner = true;
+                                      });
+                                      double earnings = await getEarningBetween(
+                                          fromDate, toDate);
+                                      setState(() {
+                                        spinner = false;
+                                      });
+                                      Alert(
+                                          context: context,
                                           title: 'Periodic Earning',
-                                          desc: "Earning bewteen "+fromDay+"/"+fromMonth+"/"+fromYear+" and "+toDay+"/"+toMonth+"/"+fromYear+" is:",
+                                          desc: "Earning bewteen " +
+                                              fromDay +
+                                              "/" +
+                                              fromMonth +
+                                              "/" +
+                                              fromYear +
+                                              " and " +
+                                              toDay +
+                                              "/" +
+                                              toMonth +
+                                              "/" +
+                                              fromYear +
+                                              " is:",
                                           content: Column(
                                             children: <Widget>[
-                                              Text('₹ '+earnings.toString()),
+                                              Text('₹ ' + earnings.toString()),
                                             ],
                                           ),
                                           buttons: [
@@ -189,53 +215,49 @@ class _SummaryPageState extends State<SummaryPage> {
                                               child: Text(
                                                 'Okay',
                                                 style: TextStyle(
-                                                  color: Colors.white
-                                                ),
-                                                ),
-                                              onPressed: (){
+                                                    color: Colors.white),
+                                              ),
+                                              onPressed: () {
                                                 Navigator.pop(context);
                                               },
                                             )
-                                          ]
-                                        ).show();
-                                      }
-                                      else if(toDate.isBefore(fromDate)){
-                                        Alert(
-                                          context:context,
-                                          title: 'Wrong Dates',
-                                          desc: '2nd date cannot be before the 1st date!',
-                                        ).show();
-                                      }
-                                    }
-                                    else{
+                                          ]).show();
+                                    } else if (toDate.isBefore(fromDate)) {
                                       Alert(
-                                          context:context,
-                                          title: 'Please fill both dates.',
-                                        ).show();
+                                        context: context,
+                                        title: 'Wrong Dates',
+                                        desc:
+                                            '2nd date cannot be before the 1st date!',
+                                      ).show();
                                     }
-                                  }
-                                  catch(e){
-                                    print(e);
+                                  } else {
                                     Alert(
                                       context: context,
-                                      title: 'Something went wrong',
-                                      desc: 'Please try later.',
+                                      title: 'Please fill both dates.',
                                     ).show();
                                   }
-                                },
-                                child: Text(
-                                  'show',
-                                  style:TextStyle(
-                                    color: Colors.white,
-                                  )
-                                  ),
+                                } catch (e) {
+                                  print(e);
+                                  Alert(
+                                    context: context,
+                                    title: 'Something went wrong',
+                                    desc: 'Please try later.',
+                                  ).show();
+                                }
+                              },
+                              child: Text(
+                                'show',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),                  
+                            ),
+                          ),
                         ],
                       ),
                     )
                   ],
-                  ),
+                ),
               ),
             ),
           ],

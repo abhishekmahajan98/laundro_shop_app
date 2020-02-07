@@ -10,7 +10,7 @@ class User {
   static String maxIroning = '';
   static String maxWashing = '';
   static String maxDryCleaning = '';
-
+  static double serviceRadius;
   static String primaryAddress = '';
   static String landmark = '';
   static String administrativeArea = '';

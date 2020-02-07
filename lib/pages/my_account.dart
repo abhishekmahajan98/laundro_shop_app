@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:laundro_shop_app/models/user_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../constants.dart';
+
+final _firestore = Firestore.instance;
 
 class MyAccount extends StatefulWidget {
   @override
@@ -11,32 +13,6 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
-  SharedPreferences prefs;
-  bool editPhoneNumber = false;
-  bool editPrimaryAddress = false;
-  bool editSecondaryAddress = false;
-  String displayName = User.displayName;
-  String email = User.email;
-  String updatedNumber = User.phone;
-  //String updatedAddressLine1 = User.primaryAddressLine1;
-  //String updatedAddressLine2 = User.primaryAddressLine2;
-  //String updatedCity = User.primaryAddressCity;
-  //String updatedState = User.primaryAddressState;
-  //String updatedPincode = User.pincode;
-  String updatedPrimaryAddress = User.primaryAddress;
-
-  final _firestore = Firestore.instance;
-
-  @override
-  void initState() {
-    super.initState();
-    instantiateSP();
-  }
-
-  void instantiateSP() async {
-    prefs = await SharedPreferences.getInstance();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,92 +23,35 @@ class _MyAccountState extends State<MyAccount> {
           width: double.infinity,
           height: 60,
           child: RaisedButton(
-            color: Color(0XFF6bacde),
+            color: mainColor,
             onPressed: () {
-              /*
-              updatedPrimaryAddress = updatedAddressLine1 +
-                  "+" +
-                  updatedAddressLine2 +
-                  "+" +
-                  updatedCity +
-                  "+" +
-                  updatedState +
-                  "+" +
-                  updatedPincode;
-              if (updatedNumber != User.phone ||
-                  updatedPincode != User.pincode ||
-                  updatedPrimaryAddress != User.primaryAddress) {
-                if (updatedPincode.length == 6 &&
-                    updatedNumber.length == 10 &&
-                    updatedAddressLine1.length >= 1 &&
-                    updatedCity.length > 1 &&
-                    updatedState.length > 1) {
-                  User.primaryAddress = updatedPrimaryAddress;
-                  User.phone = updatedNumber;
-                  User.primaryAddressLine1 = updatedAddressLine1;
-                  User.primaryAddressLine2 = updatedAddressLine2;
-                  User.primaryAddressCity = updatedCity;
-                  User.primaryAddressState = updatedState;
-                  User.pincode = updatedPincode;
-                  //remove previous prefs
-                  prefs.remove('loggedInUserPhoneNumber');
-                  prefs.remove('loggedInUserPrimaryAddress');
-                  prefs.remove('loggedInUserPrimaryAddressLine1');
-                  prefs.remove('loggedInUserPrimaryAddressLine2');
-                  prefs.remove('loggedInUserPrimaryAddressCity');
-                  prefs.remove('loggedInUserPrimaryAddressState');
-                  prefs.remove('loggedInUserPrimaryAddressPincode');
-                  //set updated prefs
-                  prefs.setString('loggedInUserPhoneNumber', User.phone);
-                  prefs.setString('loggedInUserPrimaryAddressLine1',
-                      User.primaryAddressLine1);
-                  prefs.setString('loggedInUserPrimaryAddressLine2',
-                      User.primaryAddressLine2);
-                  prefs.setString('loggedInUserPrimaryAddressCity',
-                      User.primaryAddressCity);
-                  prefs.setString('loggedInUserPrimaryAddressState',
-                      User.primaryAddressState);
-                  prefs.setString(
-                      'loggedInUserPrimaryAddressPincode', User.pincode);
-                  prefs.setString(
-                      'loggedInUserPrimaryAddress', User.primaryAddress);
-                  _firestore
-                      .collection('shop')
-                      .document(User.uid)
-                      .updateData({
-                    'phoneNumber': User.phone,
-                    'primaryAddress': User.primaryAddress,
-                    'primaryAddressLine1': User.primaryAddressLine1,
-                    'primaryAddressLine2': User.primaryAddressLine2,
-                    'primaryAddressCity': User.primaryAddressCity,
-                    'primaryAddressState': User.primaryAddressState,
-                    'primaryAddressPincode': User.pincode,
-                  });
-                  Navigator.pop(context);
-                }
-                else{
-                  Alert(
-                      context: context,
-                      title: 'Invalid data in Fields',
-                      desc:
-                      'Please check the fields entered.',
-                      buttons: [
-                        DialogButton(
-                          child: Text('Okay'),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ]).show();
-                }
-              }
-              else{
-                Navigator.pop(context);
-              }
-              */
+              _firestore
+                  .collection('shopInfoChangeRequests')
+                  .document()
+                  .setData({
+                'requestTime': DateTime.now(),
+                'shopId': User.uid,
+                'processed': false,
+              }).then((val) {
+                Alert(
+                  context: context,
+                  title: 'Request Sent!',
+                  desc:
+                      'We will call you soon to get the details regarding the change soon! Please sit tight.It usually takes anywhere from a few hours to 2 days to process the request.',
+                  buttons: [
+                    DialogButton(
+                      color: mainColor,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Okay'),
+                    )
+                  ],
+                ).show();
+              });
             },
             child: Text(
-              'Save',
+              'Request Change',
               style: kCategoryTextStyle,
             ),
           ),
@@ -140,7 +59,7 @@ class _MyAccountState extends State<MyAccount> {
         appBar: AppBar(
           title: Text("My Account"),
           centerTitle: true,
-          backgroundColor: Color(0XFF6bacde),
+          backgroundColor: mainColor,
         ),
         body: Column(
           children: <Widget>[
@@ -150,7 +69,7 @@ class _MyAccountState extends State<MyAccount> {
                 width: double.infinity,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color(0XFF6bacde),
+                  color: mainColor,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -219,20 +138,9 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                         child: ListTile(
                           title: TextFormField(
-                            enabled: editPhoneNumber,
+                            enabled: false,
                             keyboardType: TextInputType.phone,
                             initialValue: User.phone,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: updatedNumber.length == 10
-                                  ? Colors.black
-                                  : Colors.red,
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                updatedNumber = value;
-                              });
-                            },
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.only(top: 14.0),
                               prefixIcon: Icon(
@@ -240,22 +148,11 @@ class _MyAccountState extends State<MyAccount> {
                                 color: Colors.black,
                               ),
                               prefixText: '+91-',
-                              //hintText: 'Enter your Email',
-                              //hintStyle: kHintTextStyle,
                             ),
                           ),
-                          trailing: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                editPhoneNumber = !editPhoneNumber;
-                              });
-                            },
-                            child: Icon(
-                              editPhoneNumber == false
-                                  ? Icons.edit
-                                  : Icons.check,
-                              color: Colors.black,
-                            ),
+                          trailing: Icon(
+                            Icons.lock,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -281,11 +178,11 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                             ),
                             ListTile(
-                              leading: Text("Line 1      "),
+                              leading: Text("Line 1       "),
                               title: TextFormField(
                                 enabled: false,
                                 keyboardType: TextInputType.text,
-                                //initialValue: updatedAddressLine1,
+                                initialValue: User.primaryAddress,
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -298,11 +195,11 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                             ),
                             ListTile(
-                              leading: Text("Line 2      "),
+                              leading: Text("Landmark"),
                               title: TextFormField(
                                 enabled: false,
                                 keyboardType: TextInputType.text,
-                                //initialValue: updatedAddressLine2,
+                                initialValue: User.landmark,
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -315,43 +212,9 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                             ),
                             ListTile(
-                              leading: Text("City         "),
+                              leading: Text("Pincode   "),
                               title: TextFormField(
-                                enabled: false,
-                                keyboardType: TextInputType.text,
-                                //initialValue: updatedCity,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    //updatedCity = value;
-                                  });
-                                },
-                              ),
-                            ),
-                            ListTile(
-                              leading: Text("State       "),
-                              title: TextFormField(
-                                enabled: false,
-                                keyboardType: TextInputType.text,
-                                //initialValue: updatedState,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    //updatedState = value;
-                                  });
-                                },
-                              ),
-                            ),
-                            ListTile(
-                              leading: Text("Pincode  "),
-                              title: TextFormField(
-                                //initialValue: updatedPincode,
+                                initialValue: User.pincode,
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,

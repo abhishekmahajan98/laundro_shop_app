@@ -21,14 +21,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        /*Text(
-          'Email',
-          style: kLabelStyle,
-        ),
-        SizedBox(height: 10.0),*/
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
             keyboardType: TextInputType.emailAddress,
@@ -39,7 +33,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               color: Colors.white,
             ),
             decoration: InputDecoration(
-              border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
@@ -94,7 +87,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         child: Text(
           'Reset',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: mainColor,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -118,7 +111,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color(0XFF6bacde),
+                  color: mainColor,
                 ),
               ),
               Container(

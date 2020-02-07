@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:laundro_shop_app/components/side_drawer.dart';
 import 'package:laundro_shop_app/constants.dart';
-import 'package:laundro_shop_app/pages/active_orders.dart';
 import 'package:laundro_shop_app/pages/new_orders.dart';
+import 'package:laundro_shop_app/pages/order_delivery_page.dart';
+import 'package:laundro_shop_app/pages/order_pickup_page.dart';
 import 'package:laundro_shop_app/pages/previous_orders.dart';
 import 'package:laundro_shop_app/pages/summary_page.dart';
 
@@ -16,13 +17,15 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   final List<String> _pageTitles = [
     'New Orders',
-    'Active Orders',
+    'Pickup Page',
+    'Delivery Page',
     'Previous Orders',
     'Summary',
   ];
   final List<Widget> _pages = [
     NewOrders(),
-    ActiveOrders(),
+    OrderPickupPage(),
+    OrderDeliveryPage(),
     PreviousOrders(),
     SummaryPage(),
   ];
@@ -47,6 +50,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -54,7 +58,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(_pageTitles[_selectedIndex]),
-          backgroundColor:Color(0XFF6bacde),
+          backgroundColor: mainColor,
         ),
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {
@@ -63,13 +67,16 @@ class _HomePageState extends State<HomePage> {
             });
           },
           currentIndex: _selectedIndex,
-          
-          type: BottomNavigationBarType.fixed,
+          type: BottomNavigationBarType.shifting,
           items: <BottomNavigationBarItem>[
             _buildNavigationItem(0, FontAwesomeIcons.list, _pageTitles[0]),
-            _buildNavigationItem(1, FontAwesomeIcons.checkSquare, _pageTitles[1]),
-            _buildNavigationItem(2, FontAwesomeIcons.clipboardCheck, _pageTitles[2]),
-            _buildNavigationItem(3, Icons.message, _pageTitles[3]),
+            _buildNavigationItem(
+                1, FontAwesomeIcons.checkSquare, _pageTitles[1]),
+            _buildNavigationItem(
+                2, FontAwesomeIcons.truckPickup, _pageTitles[2]),
+            _buildNavigationItem(
+                3, FontAwesomeIcons.clipboardCheck, _pageTitles[3]),
+            _buildNavigationItem(4, Icons.message, _pageTitles[4]),
           ],
         ),
         drawer: SideDrawer(),
